@@ -1,12 +1,11 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Xml.Serialization;
 
 namespace PlexBuilder
 {
-    public class Serializer
+    public static class Serializer
     {
-        public T Deserialize<T>(string input) where T : class
+        public static T Deserialize<T>(string input) where T : class
         {
             XmlSerializer ser = new XmlSerializer(typeof(T));
 
@@ -16,7 +15,7 @@ namespace PlexBuilder
             }
         }
 
-        public string Serialize<T>(T ObjectToSerialize)
+        public static string Serialize<T>(T ObjectToSerialize) where T : class
         {
             XmlSerializer xmlSerializer = new XmlSerializer(ObjectToSerialize.GetType());
 

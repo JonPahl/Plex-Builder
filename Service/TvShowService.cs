@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace PlexBuilder.Service
 {
-    public class TvShowService : PlexBase
+    public class TvShowService : PlexBase<SqlModels.TvShow>
     {
         public override List<KeyValuePair<string, int>> LibraryIds { get; }
-        public List<SqlModels.TvShow> TvShowsLibraries { get; set; }
+        public override List<SqlModels.TvShow> Library { get; set; }               
 
         private int Id;
         private int start = 0;
@@ -20,7 +20,7 @@ namespace PlexBuilder.Service
 
         public TvShowService(PlexConfig config, PlexContext context) : base(config)
         {
-            TvShowsLibraries = new List<SqlModels.TvShow>();
+            Library = new List<SqlModels.TvShow>();
             this.context = context;
         }
 
@@ -50,7 +50,7 @@ namespace PlexBuilder.Service
 
 
             var save = new SaveToFile(@"C:\Temp\TvShowFile.txt");
-            foreach (var tvShow in TvShowsLibraries)
+            foreach (var tvShow in Library)
             {
                 try
                 {
@@ -80,8 +80,7 @@ namespace PlexBuilder.Service
             saveTvShows.Save();
             */
 
-
-            ProcessResults(TvShowsLibraries);
+            ProcessResults(Library);
         }
 
         public override async Task<T> GetLibaries<T>(Uri uri)
@@ -127,7 +126,7 @@ namespace PlexBuilder.Service
                 start += pageSize;
                 var Uri = RequestUrl(Id, start, pageSize);
                 return await LoadData<T>(Uri, list).ConfigureAwait(true);
-            }            
+            }
         }
 
 
@@ -155,7 +154,7 @@ namespace PlexBuilder.Service
                     foreach (var season in seasons.Directory.Where(x => x.index > 0))
                     {
                         var seasonEpisodes = LoadMedia<Episode.MediaContainer>(season.key);
-                        
+
                         foreach (var episode in seasonEpisodes.Video.Where(x => x.index > 0))
                         {
                             var show = new SqlModels.TvShow
@@ -170,7 +169,7 @@ namespace PlexBuilder.Service
                                 LastUpdated = DateTime.Now
                             };
 
-                            TvShowsLibraries.Add(show);
+                            Library.Add(show);
                         }
                     }
                 }

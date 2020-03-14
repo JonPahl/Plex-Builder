@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace PlexBuilder.Service
 {
-    public class MoviesService : PlexBase
+    public class MoviesService : PlexBase<SqlModels.Movies>
     {
         public override List<KeyValuePair<string, int>> LibraryIds { get; }
-        public List<SqlModels.Movies> MovieLibraries { get; }
+        public override List<SqlModels.Movies> Library { get; set; }
 
         private int Id;
         private int start = 0;
@@ -18,7 +18,7 @@ namespace PlexBuilder.Service
 
         public MoviesService(PlexConfig config) : base(config)
         {
-            MovieLibraries = new List<SqlModels.Movies>();
+            Library = new List<SqlModels.Movies>();            
         }
 
         public async Task Execute(List<KeyValuePair<string, int>> movies)
@@ -47,7 +47,7 @@ namespace PlexBuilder.Service
 
 
             var save = new SaveToFile(@"C:\Temp\TestFile.txt");
-            foreach (var movie in MovieLibraries)
+            foreach (var movie in Library)
             {
                 try
                 {  
@@ -66,7 +66,7 @@ namespace PlexBuilder.Service
             }
 
             //using(var saveMovie=new SaveMoviesToDb()){foreach(var movie in MovieLibraries){saveMovie.SaveRecord(movie);}saveMovie.Save();}
-            ProcessResults(MovieLibraries);
+            ProcessResults(Library);
         }
 
         public override async Task<T> GetLibaries<T>(Uri uri)
@@ -148,14 +148,12 @@ namespace PlexBuilder.Service
                             LastUpdated = DateTime.Now,
                         };
 
-                        MovieLibraries.Add(movie);
+                        Library.Add(movie);
                     }
                 }
             }
         }
-
-
-
+               
         private void ProcessResults(IEnumerable<SqlModels.Movies> Movies)
         {
             Console.WriteLine(BuildSeperator('='));

@@ -8,12 +8,14 @@ using System.Threading.Tasks;
 
 namespace PlexBuilder.Service
 {
-    public class AllLibrariesService : PlexBase
+    public class AllLibrariesService : PlexBase<Libraries.MediaContainer>
     {
         public override List<KeyValuePair<string, int>> LibraryIds { get; }
+        public override List<Libraries.MediaContainer> Library { get; set; }
 
         public AllLibrariesService(PlexConfig config) : base(config)
         {
+            Library = new List<Libraries.MediaContainer>();
             LibraryIds = new List<KeyValuePair<string, int>>();            
         }
 

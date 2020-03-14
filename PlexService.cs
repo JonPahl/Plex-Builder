@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using PlexBuilder.Concrete;
 using PlexBuilder.Service;
 using System;
@@ -13,17 +14,23 @@ namespace PlexBuilder
         private static PlexConfig config;
         
         private AllLibrariesService allLibraries;
+        private IConfiguration configuration;
 
-        public PlexService()
+        public PlexService(IConfiguration configuration)
         {
-            var username = "-- Plex Username --";
-            var pwd = "-- Plex Password --";
+            this.configuration = configuration;
+
+            var appSettings = configuration.GetSection("Appsettings");
+            var settings = appSettings.GetChildren();
+
+            var username = settings.FirstOrDefault(x => x.Value == "PlexName").Value;   //"-- Plex Username --";
+            var pwd = settings.FirstOrDefault(x => x.Value == "PlexPwd").Value; //"-- Plex Password --";
 
             var login = new PlexLogin(username, pwd);
             var token = login.Login().Result;
             config = new PlexConfig
             {
-                BaseUrl = "http://127.0.0.1:32400",
+                BaseUrl = settings.FirstOrDefault(x => x.Value == "PlexServer").Value, // "http://127.0.0.1:32400",
                 Token = token
             };
         }
@@ -54,7 +61,7 @@ namespace PlexBuilder
             allLibraries = new AllLibrariesService(config);
             await allLibraries.Execute().ConfigureAwait(true);
 
-            Console.WriteLine(PlexBase.BuildSeperator('-'));
+            Console.WriteLine(PlexBase<object>.BuildSeperator('-'));
             Console.WriteLine(Environment.NewLine);
         }
 
@@ -68,6 +75,7 @@ namespace PlexBuilder
             var MoviceService = new MoviesService(config);
             await MoviceService.Execute(movies).ConfigureAwait(true);
         }
+
 
         private async Task FindTvShows()
         {

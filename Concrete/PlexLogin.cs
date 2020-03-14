@@ -55,6 +55,9 @@ namespace PlexBuilder.Concrete
 
         private LoginResult.user ProcessResults(string xml)
         {
+            //var serializer = new XmlSerializer(typeof(T));
+            //var library = (LoginResult.user)serializer.Deserialize(reader);
+
             XmlSerializer serializer = new XmlSerializer(typeof(LoginResult.user));
             using (StringReader rdr = new StringReader(xml))
             {

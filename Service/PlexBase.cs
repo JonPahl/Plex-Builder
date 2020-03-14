@@ -7,14 +7,16 @@ using System.Xml.Serialization;
 
 namespace PlexBuilder.Service
 {
-    public abstract class PlexBase
+    public abstract class PlexBase<T>
     {
         protected PlexConfig config;
         public abstract List<KeyValuePair<string, int>> LibraryIds { get; }
+        public abstract List<T> Library { get; set; }
 
+               
         public PlexBase(PlexConfig config)
         {
-            this.config = config;
+            this.config = config;            
         }
 
         public static string BuildSeperator(char item, int cnt = 20) => new string(item, cnt);

@@ -8,12 +8,14 @@ using PlexBuilder;
 using Serilog;
 using PlexBuilder.SqlModels;
 using PlexBuilder.Service;
+using System.Configuration;
 
 namespace Service
 {
     public static class Program
     {
         private static IConfiguration configuration;
+
 
         static async Task Main(string[] args)
         {
@@ -38,6 +40,7 @@ namespace Service
         }
 
 
+
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .UseSerilog()
@@ -48,8 +51,10 @@ namespace Service
                         option.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
                     });
 
-                    services.AddScoped<PlexBase, TvShowService>();
-                    services.AddScoped<PlexBase, MoviesService>();
+                    //services.AddScoped<Configuration, IConfiguration>();
+
+                    services.AddScoped<PlexBase<TvShow>, TvShowService>();
+                    services.AddScoped<PlexBase<Movies>, MoviesService>();
                     services.AddHostedService<PlexService>();
                 });
     }
