@@ -11,6 +11,7 @@ namespace PlexBuilder.Concrete
 {
     public class PlexLogin
     {
+        public LoginResult.user loginResult;
         private string username { get; set; }
         private string pwd { get; set; }
         private Uri LoginUrl { get; }
@@ -32,21 +33,19 @@ namespace PlexBuilder.Concrete
                 {
                     httpClient.DefaultRequestHeaders.Add("ContentType", "application/json");
                     var plainTextBytes = Encoding.UTF8.GetBytes($"{username}:{pwd}");
-                    string val = Convert.ToBase64String(plainTextBytes);
+                    string encodedValue = Convert.ToBase64String(plainTextBytes);
 
-                    httpClient.DefaultRequestHeaders.Add("Authorization", $"Basic {val}");
+                    httpClient.DefaultRequestHeaders.Add("Authorization", $"Basic {encodedValue}");
                     httpClient.DefaultRequestHeaders.Add("X-Plex-Client-Identifier", "TESTSCRIPTV1");
                     httpClient.DefaultRequestHeaders.Add("X-Plex-Product", "Test script");
                     httpClient.DefaultRequestHeaders.Add("X-Plex-Version", "V1");
-
-                    var values = new Dictionary<string, string>();
-                    var content = new FormUrlEncodedContent(values);
-                                       
-                    var response = await httpClient.PostAsync(LoginUrl, content).ConfigureAwait(true);
                     
-                    var responseString = await response.Content.ReadAsStringAsync().ConfigureAwait(true);
-                    var loginResult = ProcessResults(responseString);
-                                        
+                    using (var content = new FormUrlEncodedContent(new Dictionary<string, string>()))
+                    {
+                        var response = await httpClient.PostAsync(LoginUrl, content).ConfigureAwait(true);
+                        var responseString = await response.Content.ReadAsStringAsync().ConfigureAwait(true);
+                        loginResult = ProcessResults(responseString);
+                    }
                     return loginResult.authToken;
                 }
             }
@@ -55,15 +54,15 @@ namespace PlexBuilder.Concrete
 
         private LoginResult.user ProcessResults(string xml)
         {
-            //var serializer = new XmlSerializer(typeof(T));
-            //var library = (LoginResult.user)serializer.Deserialize(reader);
+            //var serializer=new XmlSerializer(typeof(T));
+            //var library=(LoginResult.user)serializer.Deserialize(reader);
 
             XmlSerializer serializer = new XmlSerializer(typeof(LoginResult.user));
             using (StringReader rdr = new StringReader(xml))
             {
                 LoginResult.user resultingMessage = (LoginResult.user)serializer.Deserialize(rdr);
                 return resultingMessage;
-            }            
+            }
         }
 
 

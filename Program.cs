@@ -19,7 +19,11 @@ namespace Service
 
         static async Task Main(string[] args)
         {
-            configuration = new ConfigurationBuilder().AddJsonFile(@"appsettings.json").Build();
+            configuration = new ConfigurationBuilder()
+                //.AddJsonFile(@"appsettings.json")
+               .AddJsonFile(@"appsettings.development.json")
+               .Build();
+
             Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(configuration).CreateLogger();
 
             try
