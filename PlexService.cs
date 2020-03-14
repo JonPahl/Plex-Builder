@@ -14,23 +14,23 @@ namespace PlexBuilder
         private static PlexConfig config;
         
         private AllLibrariesService allLibraries;
-        private IConfiguration configuration;
+        //private IConfiguration configuration;
 
         public PlexService(IConfiguration configuration)
         {
-            this.configuration = configuration;
+            //this.configuration = configuration;
 
-            var appSettings = configuration.GetSection("Appsettings");
-            var settings = appSettings.GetChildren();
-
-            var username = settings.FirstOrDefault(x => x.Value == "PlexName").Value;   //"-- Plex Username --";
-            var pwd = settings.FirstOrDefault(x => x.Value == "PlexPwd").Value; //"-- Plex Password --";
+            var appSettings = configuration.GetSection("Appsettings").GetChildren();
+            
+            //Key = "PlexName"
+            var username = appSettings.FirstOrDefault(x => Equals(x.Key, "PlexName")).Value;   //"-- Plex Username --";
+            var pwd = appSettings.FirstOrDefault(x => Equals(x.Key, "PlexPwd")).Value; //"-- Plex Password --";
 
             var login = new PlexLogin(username, pwd);
             var token = login.Login().Result;
             config = new PlexConfig
             {
-                BaseUrl = settings.FirstOrDefault(x => x.Value == "PlexServer").Value, // "http://127.0.0.1:32400",
+                BaseUrl = appSettings.FirstOrDefault(x => Equals(x.Key, "PlexServer")).Value, // "http://127.0.0.1:32400",
                 Token = token
             };
         }

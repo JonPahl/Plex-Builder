@@ -19,12 +19,29 @@ namespace Service
 
         static async Task Main(string[] args)
         {
+            //var currentDirectoryPath = Directory.GetCurrentDirectory();
+            //var envSettingsPath = Path.Combine(currentDirectoryPath, "envsettings.json");
+            //var envSettings = JObject.Parse(File.ReadAllText(envSettingsPath));
+            //var enviromentValue = envSettings["ASPNETCORE_ENVIRONMENT"].ToString();
+
+            //IHostEnvironment env = HostEnvironmentEnvExtensions.
+            // Environment.Devleopment;
+
+            var devSettings = $"appsettings.{EnvironmentName.Development}.json";
+            //Console.WriteLine();
+
             configuration = new ConfigurationBuilder()
-                //.AddJsonFile(@"appsettings.json")
-               .AddJsonFile(@"appsettings.development.json")
+                
+               //.SetBasePath(env.ContentRootPath)
+               .AddJsonFile(@"appsettings.json")
+               .AddJsonFile(devSettings, true, false)
+               //.AddJsonFile(@"appsettings.development.json", false, false)
                .Build();
 
-            Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(configuration).CreateLogger();
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom
+                .Configuration(configuration)
+                .CreateLogger();
 
             try
             {

@@ -6,7 +6,7 @@ namespace PlexBuilder.Service
 {
     #region save to Db
 
-    public class SaveTvShowToDb : IDisposable, ISaveRecordToDb
+    public class SaveTvShowToDb : IDisposable, ISaveRecord
     {
         bool disposed = false;
 

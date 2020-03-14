@@ -46,7 +46,7 @@ namespace PlexBuilder.Service
             }
 
 
-            var save = new SaveToFile(@"C:\Temp\TestFile.txt");
+            var save = new SaveToFile(@"C:\Temp\MoviesFile.txt");
             foreach (var movie in Library)
             {
                 try

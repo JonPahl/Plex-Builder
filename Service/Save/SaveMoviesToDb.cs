@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace PlexBuilder.Service.Save
 {
-    public class SaveMoviesToDb : IDisposable, ISaveRecordToDb
+    public class SaveMoviesToDb : IDisposable, ISaveRecord
     {
         private readonly PlexContext context;
         public SaveMoviesToDb()

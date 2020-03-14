@@ -1,6 +1,6 @@
 ﻿namespace PlexBuilder.Service
 {
-    public interface ISaveRecordToDb
+    public interface ISaveRecord
     {
         //void Dispose();
         void Save();

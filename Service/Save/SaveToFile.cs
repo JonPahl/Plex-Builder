@@ -3,7 +3,7 @@ using System.IO;
 
 namespace PlexBuilder.Service.Save
 {    
-    public class SaveToFile : ISaveRecordToDb
+    public class SaveToFile : ISaveRecord
     {
         private string SavePath { get; set; }
 

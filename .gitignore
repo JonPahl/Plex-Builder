@@ -341,3 +341,5 @@ healthchecksdb
 
 # Remove Files
 appsettings.development.json
+appsettings.Development.json
+appsettings.Production.json
