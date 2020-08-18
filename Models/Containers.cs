@@ -1,766 +1,183 @@
 ﻿using System;
+using System.Xml.Serialization;
+using System.ComponentModel;
 
 namespace PlexBuilder.Models
 {
-    [Serializable()]
-
-    public class Containers
+    [Serializable]
+    public static class Containers
     {
-
-
         // NOTE: Generated code may require at least .NET Framework 4.5 or .NET Core/Standard 2.0.
-        /// <remarks/>
-        [System.SerializableAttribute()]
-        [System.ComponentModel.DesignerCategoryAttribute("code")]
-        [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-        [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
-        public partial class MediaContainer
+        [Serializable]
+        [DesignerCategory("code")]
+        [XmlType(AnonymousType = true)]
+        [XmlRoot(Namespace = "", IsNullable = false)]
+        public class MediaContainer
         {
+            [XmlElement("Directory")]
+            public MediaContainerDirectory[] Directory { get; set; }
 
-            private MediaContainerDirectory[] directoryField;
+            [XmlAttribute]
+            public int size { get; set; }
 
-            private byte sizeField;
-            private byte allowCameraUploadField;
-            private byte allowChannelAccessField;
-            private byte allowMediaDeletionField;
-            private byte allowSharingField;
-            private byte allowSyncField;
-            private byte allowTunersField;
-            private byte backgroundProcessingField;
-            private byte certificateField;
-            private byte companionProxyField;
-            private string countryCodeField;
-            private string diagnosticsField;
-            private byte eventStreamField;
-            private string friendlyNameField;
-            private byte hubSearchField;
-            private byte itemClustersField;
-            private byte livetvField;
-            private string machineIdentifierField;
-            private byte mediaProvidersField;
-            private byte multiuserField;
-            private byte myPlexField;
-            private string myPlexMappingStateField;
-            private string myPlexSigninStateField;
-            private byte myPlexSubscriptionField;
-            private string myPlexUsernameField;
-            private string ownerFeaturesField;
-            private byte photoAutoTagField;
-            private string platformField;
-            private string platformVersionField;
-            private byte pluginHostField;
-            private byte pushNotificationsField;
-            private byte readOnlyLibrariesField;
-            private byte requestParametersInCookieField;
-            private byte streamingBrainABRVersionField;
-            private byte streamingBrainVersionField;
-            private byte syncField;
-            private byte transcoderActiveVideoSessionsField;
-            private byte transcoderAudioField;
-            private byte transcoderLyricsField;
-            private byte transcoderPhotoField;
-            private byte transcoderSubtitlesField;
-            private byte transcoderVideoField;
-            private string transcoderVideoBitratesField;
-            private string transcoderVideoQualitiesField;
-            private string transcoderVideoResolutionsField;
-            private uint updatedAtField;
-            private byte updaterField;
-            private string versionField;
-            private byte voiceSearchField;
+            [XmlAttribute]
+            public byte allowCameraUpload { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlElementAttribute("Directory")]
-            public MediaContainerDirectory[] Directory
-            {
-                get => this.directoryField;
-                set => this.directoryField = value;
-            }
+            [XmlAttribute]
+            public byte allowChannelAccess { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public byte size
-            {
-                get
-                {
-                    return this.sizeField;
-                }
-                set
-                {
-                    this.sizeField = value;
-                }
-            }
+            [XmlAttribute]
+            public byte allowMediaDeletion { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public byte allowCameraUpload
-            {
-                get
-                {
-                    return this.allowCameraUploadField;
-                }
-                set
-                {
-                    this.allowCameraUploadField = value;
-                }
-            }
+            [XmlAttribute]
+            public byte allowSharing { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public byte allowChannelAccess
-            {
-                get
-                {
-                    return this.allowChannelAccessField;
-                }
-                set
-                {
-                    this.allowChannelAccessField = value;
-                }
-            }
+            [XmlAttribute]
+            public byte allowSync { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public byte allowMediaDeletion
-            {
-                get
-                {
-                    return this.allowMediaDeletionField;
-                }
-                set
-                {
-                    this.allowMediaDeletionField = value;
-                }
-            }
+            [XmlAttribute]
+            public byte allowTuners { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public byte allowSharing
-            {
-                get
-                {
-                    return this.allowSharingField;
-                }
-                set
-                {
-                    this.allowSharingField = value;
-                }
-            }
+            [XmlAttribute]
+            public byte backgroundProcessing { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public byte allowSync
-            {
-                get
-                {
-                    return this.allowSyncField;
-                }
-                set
-                {
-                    this.allowSyncField = value;
-                }
-            }
+            [XmlAttribute]
+            public byte certificate { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public byte allowTuners
-            {
-                get
-                {
-                    return this.allowTunersField;
-                }
-                set
-                {
-                    this.allowTunersField = value;
-                }
-            }
+            [XmlAttribute]
+            public byte companionProxy { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public byte backgroundProcessing
-            {
-                get
-                {
-                    return this.backgroundProcessingField;
-                }
-                set
-                {
-                    this.backgroundProcessingField = value;
-                }
-            }
+            [XmlAttribute]
+            public string countryCode { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public byte certificate
-            {
-                get
-                {
-                    return this.certificateField;
-                }
-                set
-                {
-                    this.certificateField = value;
-                }
-            }
+            [XmlAttribute]
+            public string diagnostics { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public byte companionProxy
-            {
-                get
-                {
-                    return this.companionProxyField;
-                }
-                set
-                {
-                    this.companionProxyField = value;
-                }
-            }
+            [XmlAttribute]
+            public byte eventStream { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public string countryCode
-            {
-                get
-                {
-                    return this.countryCodeField;
-                }
-                set
-                {
-                    this.countryCodeField = value;
-                }
-            }
+            [XmlAttribute]
+            public string friendlyName { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public string diagnostics
-            {
-                get
-                {
-                    return this.diagnosticsField;
-                }
-                set
-                {
-                    this.diagnosticsField = value;
-                }
-            }
+            [XmlAttribute]
+            public byte hubSearch { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public byte eventStream
-            {
-                get
-                {
-                    return this.eventStreamField;
-                }
-                set
-                {
-                    this.eventStreamField = value;
-                }
-            }
+            [XmlAttribute]
+            public byte itemClusters { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public string friendlyName
-            {
-                get
-                {
-                    return this.friendlyNameField;
-                }
-                set
-                {
-                    this.friendlyNameField = value;
-                }
-            }
+            [XmlAttribute]
+            public byte livetv { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public byte hubSearch
-            {
-                get
-                {
-                    return this.hubSearchField;
-                }
-                set
-                {
-                    this.hubSearchField = value;
-                }
-            }
+            [XmlAttribute]
+            public string machineIdentifier { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public byte itemClusters
-            {
-                get
-                {
-                    return this.itemClustersField;
-                }
-                set
-                {
-                    this.itemClustersField = value;
-                }
-            }
+            [XmlAttribute]
+            public byte mediaProviders { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public byte livetv
-            {
-                get
-                {
-                    return this.livetvField;
-                }
-                set
-                {
-                    this.livetvField = value;
-                }
-            }
+            [XmlAttribute]
+            public byte multiuser { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public string machineIdentifier
-            {
-                get
-                {
-                    return this.machineIdentifierField;
-                }
-                set
-                {
-                    this.machineIdentifierField = value;
-                }
-            }
+            [XmlAttribute]
+            public byte myPlex { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public byte mediaProviders
-            {
-                get
-                {
-                    return this.mediaProvidersField;
-                }
-                set
-                {
-                    this.mediaProvidersField = value;
-                }
-            }
+            [XmlAttribute]
+            public string myPlexMappingState { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public byte multiuser
-            {
-                get
-                {
-                    return this.multiuserField;
-                }
-                set
-                {
-                    this.multiuserField = value;
-                }
-            }
+            [XmlAttribute]
+            public string myPlexSigninState { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public byte myPlex
-            {
-                get
-                {
-                    return this.myPlexField;
-                }
-                set
-                {
-                    this.myPlexField = value;
-                }
-            }
+            [XmlAttribute]
+            public byte myPlexSubscription { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public string myPlexMappingState
-            {
-                get
-                {
-                    return this.myPlexMappingStateField;
-                }
-                set
-                {
-                    this.myPlexMappingStateField = value;
-                }
-            }
+            [XmlAttribute]
+            public string myPlexUsername { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public string myPlexSigninState
-            {
-                get
-                {
-                    return this.myPlexSigninStateField;
-                }
-                set
-                {
-                    this.myPlexSigninStateField = value;
-                }
-            }
+            [XmlAttribute]
+            public string ownerFeatures { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public byte myPlexSubscription
-            {
-                get
-                {
-                    return this.myPlexSubscriptionField;
-                }
-                set
-                {
-                    this.myPlexSubscriptionField = value;
-                }
-            }
+            [XmlAttribute]
+            public byte photoAutoTag { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public string myPlexUsername
-            {
-                get
-                {
-                    return this.myPlexUsernameField;
-                }
-                set
-                {
-                    this.myPlexUsernameField = value;
-                }
-            }
+            [XmlAttribute]
+            public string platform { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public string ownerFeatures
-            {
-                get
-                {
-                    return this.ownerFeaturesField;
-                }
-                set
-                {
-                    this.ownerFeaturesField = value;
-                }
-            }
+            [XmlAttribute]
+            public string platformVersion { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public byte photoAutoTag
-            {
-                get
-                {
-                    return this.photoAutoTagField;
-                }
-                set
-                {
-                    this.photoAutoTagField = value;
-                }
-            }
+            [XmlAttribute]
+            public byte pluginHost { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public string platform
-            {
-                get
-                {
-                    return this.platformField;
-                }
-                set
-                {
-                    this.platformField = value;
-                }
-            }
+            [XmlAttribute]
+            public byte pushNotifications { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public string platformVersion
-            {
-                get
-                {
-                    return this.platformVersionField;
-                }
-                set
-                {
-                    this.platformVersionField = value;
-                }
-            }
+            [XmlAttribute]
+            public byte readOnlyLibraries { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public byte pluginHost
-            {
-                get
-                {
-                    return this.pluginHostField;
-                }
-                set
-                {
-                    this.pluginHostField = value;
-                }
-            }
+            [XmlAttribute]
+            public byte requestParametersInCookie { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public byte pushNotifications
-            {
-                get
-                {
-                    return this.pushNotificationsField;
-                }
-                set
-                {
-                    this.pushNotificationsField = value;
-                }
-            }
+            [XmlAttribute]
+            public byte streamingBrainABRVersion { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public byte readOnlyLibraries
-            {
-                get
-                {
-                    return this.readOnlyLibrariesField;
-                }
-                set
-                {
-                    this.readOnlyLibrariesField = value;
-                }
-            }
+            [XmlAttribute]
+            public byte streamingBrainVersion { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public byte requestParametersInCookie
-            {
-                get
-                {
-                    return this.requestParametersInCookieField;
-                }
-                set
-                {
-                    this.requestParametersInCookieField = value;
-                }
-            }
+            [XmlAttribute]
+            public byte sync { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public byte streamingBrainABRVersion
-            {
-                get
-                {
-                    return this.streamingBrainABRVersionField;
-                }
-                set
-                {
-                    this.streamingBrainABRVersionField = value;
-                }
-            }
+            [XmlAttribute]
+            public byte transcoderActiveVideoSessions { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public byte streamingBrainVersion
-            {
-                get
-                {
-                    return this.streamingBrainVersionField;
-                }
-                set
-                {
-                    this.streamingBrainVersionField = value;
-                }
-            }
+            [XmlAttribute]
+            public byte transcoderAudio { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public byte sync
-            {
-                get
-                {
-                    return this.syncField;
-                }
-                set
-                {
-                    this.syncField = value;
-                }
-            }
+            [XmlAttribute]
+            public byte transcoderLyrics { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public byte transcoderActiveVideoSessions
-            {
-                get
-                {
-                    return this.transcoderActiveVideoSessionsField;
-                }
-                set
-                {
-                    this.transcoderActiveVideoSessionsField = value;
-                }
-            }
+            [XmlAttribute]
+            public byte transcoderPhoto { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public byte transcoderAudio
-            {
-                get
-                {
-                    return this.transcoderAudioField;
-                }
-                set
-                {
-                    this.transcoderAudioField = value;
-                }
-            }
+            [XmlAttribute]
+            public byte transcoderSubtitles { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public byte transcoderLyrics
-            {
-                get
-                {
-                    return this.transcoderLyricsField;
-                }
-                set
-                {
-                    this.transcoderLyricsField = value;
-                }
-            }
+            [XmlAttribute]
+            public byte transcoderVideo { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public byte transcoderPhoto
-            {
-                get
-                {
-                    return this.transcoderPhotoField;
-                }
-                set
-                {
-                    this.transcoderPhotoField = value;
-                }
-            }
+            [XmlAttribute]
+            public string transcoderVideoBitrates { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public byte transcoderSubtitles
-            {
-                get
-                {
-                    return this.transcoderSubtitlesField;
-                }
-                set
-                {
-                    this.transcoderSubtitlesField = value;
-                }
-            }
+            [XmlAttribute]
+            public string transcoderVideoQualities { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public byte transcoderVideo
-            {
-                get
-                {
-                    return this.transcoderVideoField;
-                }
-                set
-                {
-                    this.transcoderVideoField = value;
-                }
-            }
+            [XmlAttribute]
+            public string transcoderVideoResolutions { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public string transcoderVideoBitrates
-            {
-                get => this.transcoderVideoBitratesField;
-                set => this.transcoderVideoBitratesField = value;
-            }
+            [XmlAttribute]
+            public uint updatedAt { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public string transcoderVideoQualities
-            {
-                get => this.transcoderVideoQualitiesField;
-                set => this.transcoderVideoQualitiesField = value;
-            }
+            [XmlAttribute]
+            public byte updater { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public string transcoderVideoResolutions
-            {
-                get => this.transcoderVideoResolutionsField;
-                set => this.transcoderVideoResolutionsField = value;
-            }
+            [XmlAttribute]
+            public string version { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public uint updatedAt
-            {
-                get => this.updatedAtField;
-                set => this.updatedAtField = value;
-            }
-
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public byte updater
-            {
-                get => this.updaterField;
-                set => this.updaterField = value;
-            }
-
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public string version
-            {
-                get => this.versionField;
-                set => this.versionField = value;
-            }
-
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public byte voiceSearch
-            {
-                get => this.voiceSearchField;
-                set => this.voiceSearchField = value;
-            }
+            [XmlAttribute]
+            public byte voiceSearch { get; set; }
         }
 
-        /// <remarks/>
-        [System.SerializableAttribute()]
-        [System.ComponentModel.DesignerCategoryAttribute("code")]
-        [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-        public partial class MediaContainerDirectory
+        [Serializable]
+        [DesignerCategory("code")]
+        [XmlType(AnonymousType = true)]
+        public class MediaContainerDirectory
         {
+            [XmlAttribute]
+            public byte count { get; set; }
 
-            private byte countField;
-            private string keyField;
-            private string titleField;
+            [XmlAttribute]
+            public string key { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public byte count
-            {
-                get => this.countField;
-                set => this.countField = value;
-            }
-
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public string key
-            {
-                get => this.keyField;
-                set => this.keyField = value;
-            }
-
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public string title
-            {
-                get => this.titleField;
-                set => this.titleField = value;
-            }
+            [XmlAttribute]
+            public string title { get; set; }
         }
-
-
-
-
-
     }
 }

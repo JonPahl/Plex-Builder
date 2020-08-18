@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace PlexBuilder.SqlModels
 {
@@ -10,10 +8,8 @@ namespace PlexBuilder.SqlModels
         {
         }
 
-        public PlexContext(DbContextOptions<PlexContext> options)
-            : base(options)
+        public PlexContext(DbContextOptions<PlexContext> options): base(options)
         {
-            
         }
 
         public virtual DbSet<Movies> Movies { get; set; }
@@ -23,12 +19,12 @@ namespace PlexBuilder.SqlModels
         {
             optionsBuilder.EnableSensitiveDataLogging(true);
 
-            if (!optionsBuilder.IsConfigured)
-            {
-
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=DESKTOP-B05M3TT;Database=Plex;Trusted_Connection=True;");
-            }
+//            if (!optionsBuilder.IsConfigured)
+//            {
+//#warning To protect potentially sensitive information in your connection string, 
+//#warning you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+//                optionsBuilder.UseSqlServer("Server=.;Database=Plex;Trusted_Connection=True;");
+//            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

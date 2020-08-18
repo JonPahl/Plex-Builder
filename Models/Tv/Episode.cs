@@ -1,395 +1,293 @@
 ﻿using System;
+using System.Xml.Serialization;
+using System.ComponentModel;
 
 namespace PlexBuilder.Models.Tv
 {
-    public class Episode
+    public static class Episode
     {
         // NOTE: Generated code may require at least .NET Framework 4.5 or .NET Core/Standard 2.0.
-        /// <remarks/>
-        [Serializable()]
-        [System.ComponentModel.DesignerCategory("code")]
-        [System.Xml.Serialization.XmlType(AnonymousType = true)]
-        [System.Xml.Serialization.XmlRoot(Namespace = "", IsNullable = false)]
-        public partial class MediaContainer
+        [Serializable]
+        [DesignerCategory("code")]
+        [XmlType(AnonymousType = true)]
+        [XmlRoot(Namespace = "", IsNullable = false)]
+        public class MediaContainer
         {
-            private int viewModeField;
-
-            /// <remarks/>
-            [System.Xml.Serialization.XmlElement("Video")]
+            [XmlElement("Video")]
             public MediaContainerVideo[] Video { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public int size { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public int allowSync { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public string art { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public string banner { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public string grandparentContentRating { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public ushort grandparentRatingKey { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public string grandparentStudio { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public string grandparentTheme { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public string grandparentThumb { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public string grandparentTitle { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public string identifier { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public ushort key { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public int librarySectionID { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public string librarySectionTitle { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public string librarySectionUUID { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public string mediaTagPrefix { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public int mediaTagVersion { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public int nocache { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public int parentIndex { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public string parentTitle { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public string theme { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public string thumb { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public string title1 { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public string title2 { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public string viewGroup { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
-            public int viewMode
-            {
-                get => this.viewModeField;
-                set => this.viewModeField = value;
-            }
+            [XmlAttribute]
+            public int viewMode { get; set; }
         }
 
-        /// <remarks/>
-        [Serializable()]
-        [System.ComponentModel.DesignerCategory("code")]
-        [System.Xml.Serialization.XmlType(AnonymousType = true)]
-        public partial class MediaContainerVideo
+        [Serializable]
+        [DesignerCategory("code")]
+        [XmlType(AnonymousType = true)]
+        public class MediaContainerVideo
         {
-            private int updatedAtField;
-
-            /// <remarks/>
             public MediaContainerVideoMedia Media { get; set; }
 
-            /// <remarks/>
             public MediaContainerVideoDirector Director { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlElement("Writer")]
+            [XmlElement("Writer")]
             public MediaContainerVideoWriter[] Writer { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public ushort ratingKey { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public string key { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public ushort parentRatingKey { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public ushort grandparentRatingKey { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public string guid { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public string parentGuid { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public string grandparentGuid { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public string type { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public string title { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public string grandparentKey { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public string parentKey { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public string grandparentTitle { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public string parentTitle { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public string contentRating { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public string summary { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public int index { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public int parentIndex { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public decimal rating { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public ushort year { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public string thumb { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public string art { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public string parentThumb { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public string grandparentThumb { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public string grandparentArt { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public string grandparentTheme { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public UInt64 duration { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute(DataType = "date")]
+            [XmlAttribute(DataType = "date")]
             public DateTime originallyAvailableAt { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public int addedAt { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
-            public int updatedAt
-            {
-                get => this.updatedAtField;
-                set => this.updatedAtField = value;
-            }
+            [XmlAttribute]
+            public int updatedAt { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public string titleSort { get; set; }
         }
 
-        /// <remarks/>
-        [Serializable()]
-        [System.ComponentModel.DesignerCategory("code")]
-        [System.Xml.Serialization.XmlType(AnonymousType = true)]
-        public partial class MediaContainerVideoMedia
+        [Serializable]
+        [DesignerCategory("code")]
+        [XmlType(AnonymousType = true)]
+        public class MediaContainerVideoMedia
         {
-
-            /// <remarks/>
             public MediaContainerVideoMediaPart Part { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public ushort id { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public UInt64 duration { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public ushort bitrate { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public ushort width { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public ushort height { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public decimal aspectRatio { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public int audioChannels { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public string audioCodec { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public string videoCodec { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public string videoResolution { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public string container { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public string videoFrameRate { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public string videoProfile { get; set; }
         }
 
-        /// <remarks/>
-        [Serializable()]
-        [System.ComponentModel.DesignerCategory("code")]
-        [System.Xml.Serialization.XmlType(AnonymousType = true)]
-        public partial class MediaContainerVideoMediaPart
+        [Serializable]
+        [DesignerCategory("code")]
+        [XmlType(AnonymousType = true)]
+        public class MediaContainerVideoMediaPart
         {
-
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public ushort id { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public string key { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public UInt64 duration { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public string file { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public UInt64 size { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public string container { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public string videoProfile { get; set; }
         }
 
-        /// <remarks/>
-        [Serializable()]
-        [System.ComponentModel.DesignerCategory("code")]
-        [System.Xml.Serialization.XmlType(AnonymousType = true)]
-        public partial class MediaContainerVideoDirector
+        [Serializable]
+        [DesignerCategory("code")]
+        [XmlType(AnonymousType = true)]
+        public class MediaContainerVideoDirector
         {
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public string tag { get; set; }
         }
 
-        /// <remarks/>
-        [Serializable()]
-        [System.ComponentModel.DesignerCategory("code")]
-        [System.Xml.Serialization.XmlType(AnonymousType = true)]
-        public partial class MediaContainerVideoWriter
+        [Serializable]
+        [DesignerCategory("code")]
+        [XmlType(AnonymousType = true)]
+        public class MediaContainerVideoWriter
         {
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttribute()]
+            [XmlAttribute]
             public string tag { get; set; }
         }
-
     }
 }

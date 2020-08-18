@@ -1,9 +1,8 @@
 ﻿using PlexBuilder.Models;
-using PlexBuilder.Service;
+using PlexBuilder.SqlModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace PlexBuilder.Service
@@ -13,10 +12,10 @@ namespace PlexBuilder.Service
         public override List<KeyValuePair<string, int>> LibraryIds { get; }
         public override List<Libraries.MediaContainer> Library { get; set; }
 
-        public AllLibrariesService(PlexConfig config) : base(config)
+        public AllLibrariesService(PlexConfig config, PlexContext context) : base(config, context)
         {
             Library = new List<Libraries.MediaContainer>();
-            LibraryIds = new List<KeyValuePair<string, int>>();            
+            LibraryIds = new List<KeyValuePair<string, int>>();
         }
 
         public async Task Execute()
@@ -35,13 +34,13 @@ namespace PlexBuilder.Service
         public override void PrintResults<T>(T libraries)
         {
             var library = libraries as Libraries.MediaContainer;
-            
+
             //foreach(var location in library.Directory) {
             //    var item = new KeyValuePair<string, int>(location.title, location.key);
             //    LibraryIds.Add(item);
             //    LibraryIds.AddRange(from loc in location.Location.ToList()
             // select new KeyValuePair<string, int>(location.title, loc.id)); }
-            
+
             LibraryIds
                 .AddRange(library.Directory.ToList().OrderBy(x => x.key)
                 .Select(location => new KeyValuePair<string, int>(location.title, location.key)));

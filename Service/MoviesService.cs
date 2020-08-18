@@ -1,9 +1,11 @@
-﻿using PlexBuilder.Models.Movies;
-using PlexBuilder.Service.Save;
+﻿using PlexBuilder.SqlModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Serialization;
+using Movies = PlexBuilder.Models.Movie.Movies;
 
 namespace PlexBuilder.Service
 {
@@ -14,11 +16,10 @@ namespace PlexBuilder.Service
 
         private int Id;
         private int start = 0;
-        private int pageSize = 1;
 
-        public MoviesService(PlexConfig config) : base(config)
+        public MoviesService(PlexConfig config, PlexContext context) : base(config, context)
         {
-            Library = new List<SqlModels.Movies>();            
+            Library = new List<SqlModels.Movies>();
         }
 
         public async Task Execute(List<KeyValuePair<string, int>> movies)
@@ -28,13 +29,12 @@ namespace PlexBuilder.Service
             foreach (var id in movies)
             {
                 Id = id.Value;
-                //movieSection.SetId(id.Value);
                 try
                 {
-                    Console.WriteLine($"{Environment.NewLine}{BuildSeperator('-')}{Environment.NewLine}");
+                    Console.WriteLine(Environment.NewLine + BuildSeperator('-') + Environment.NewLine);
 
-                    var details = await GetLibaries<Movies.MediaContainer>(new Uri(config.BaseUrl))
-                        .ConfigureAwait(true);
+                    var details = await GetLibaries<List<Movies.MediaContainer>>(new Uri(config.BaseUrl))
+                        .ConfigureAwait(false);
 
                     PrintResults(details);
                 }
@@ -45,116 +45,92 @@ namespace PlexBuilder.Service
                 }
             }
 
-
-            var save = new SaveToFile(@"C:\Temp\MoviesFile.txt");
-            foreach (var movie in Library)
-            {
-                try
-                {  
-                    save.SaveRecord(movie);                    
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-
-                /*
-                using var saveMovie = new SaveMoviesToDb();
-                saveMovie.SaveRecord(movie);
-                saveMovie.Save();
-                */
-            }
-
+            #region Test
+            //var save = new SaveToFile(@"C:\Temp\MoviesFile.txt");
+            //foreach (var movie in Library){
+            //    try{save.SaveRecord(movie);}catch (Exception ex){Console.WriteLine(ex.Message);}
+            //    using var saveMovie = new SaveMoviesToDb();saveMovie.SaveRecord(movie); saveMovie.Save();}
+            #endregion
             //using(var saveMovie=new SaveMoviesToDb()){foreach(var movie in MovieLibraries){saveMovie.SaveRecord(movie);}saveMovie.Save();}
-            ProcessResults(Library);
+            //ProcessResults(Library);
         }
 
         public override async Task<T> GetLibaries<T>(Uri uri)
         {
-            var list = new List<Movies.MediaContainerVideo>();
+            var list = new List<Movies.MediaContainer>();
 
             var Uri = RequestUrl(Id, start, pageSize);
             var results = await LoadData<Movies.MediaContainer>(Uri, list).ConfigureAwait(true);
-            var result = new Movies.MediaContainer { Video = results.ToArray() };
-
-            return (T)Convert.ChangeType(result, typeof(T));
+            return (T)Convert.ChangeType(results, typeof(T));
         }
 
-
-
-        private async Task<List<Movies.MediaContainerVideo>> LoadData<T>(Uri uri, List<Movies.MediaContainerVideo> list)
+        private async Task<List<Movies.MediaContainer>> LoadData<T>(Uri uri, List<Movies.MediaContainer> list)
         {
-            Movies.MediaContainer xml = new Movies.MediaContainer();
             try
             {
-                xml = (LoadPlex<T>(uri)) as Movies.MediaContainer;
-
-                if (xml.Video != null && xml.Video.Any())
-                    list.AddRange(xml.Video.ToList().Select(video => video));
+                var xml = LoadPlex<Movies.MediaContainer>(uri);
 
                 if (xml.totalSize <= Convert.ToUInt64(start))
                 {
-                    return list;
+                    list.Add(xml);
                 }
                 else
                 {
                     start += pageSize;
                     var Uri = RequestUrl(Id, start, pageSize);
-                    return await LoadData<T>(Uri, list).ConfigureAwait(true);
+                    return await LoadData<T>(Uri, list).ConfigureAwait(false);
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(Environment.NewLine);
                 Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.InnerException?.Message);
                 Console.WriteLine(ex.StackTrace);
                 Console.WriteLine(uri);
-                //todo: copy error and url to list for future debugging.
-
-                if (xml.totalSize <= Convert.ToUInt64(start))
-                {
-                    return list;
-                }
-                else
-                {
-                    start += pageSize;
-                    var Uri = RequestUrl(Id, start, pageSize);
-                    return await LoadData<T>(Uri, list).ConfigureAwait(true);
-                }
-
             }
+
+            return list;
         }
 
+        public override TOutput LoadPlex<TOutput>(Uri uri)
+        {
+            var reader = new XmlTextReader(uri.ToString());
+            var serializer = new XmlSerializer(typeof(Movies.MediaContainer));
+            var envelope = serializer.Deserialize(reader) as Movies.MediaContainer;
+            return (TOutput)Convert.ChangeType(envelope, typeof(Movies.MediaContainer));
+        }
 
         public override void PrintResults<T>(T libraries)
         {
-            var details = libraries as Movies.MediaContainer;
-            if (details == null) throw new InvalidCastException("Libaries is of wrong type");
+            if (!(libraries is List<Movies.MediaContainer> details))
+                throw new InvalidCastException("Libraries is of wrong type");
 
-            if (details.Video != null && details.Video.Any())
+            foreach (var item in details)
             {
-                foreach (var video in details.Video.ToList())
+                var media = item.Video.Media;
+
+                var file = media.Part.file;
+
+                var movie = new SqlModels.Movies
                 {
-                    foreach (var media in video.Media.ToList())
-                    {
-                        var file = media.Part.file;
+                    Title = item.Video.title,
+                    Year = item.Video.year,
+                    File = file,
+                    IsAvailable = FileExists(file),
+                    LastUpdated = DateTime.Now,
+                };
 
-                        var movie = new SqlModels.Movies
-                        {
-                            Title = video.title,
-                            Year = video.year,
-                            File = file,
-                            IsAvailable = FileExists(file),
-                            LastUpdated = DateTime.Now,
-                        };
-
-                        Library.Add(movie);
-                    }
+                foreach(var prop in movie.GetType().GetProperties().ToList())
+                {
+                    Console.WriteLine($"{prop.Name} ::{prop.GetValue(movie)}");
                 }
+
+                Library.Add(movie);
             }
         }
-               
-        private void ProcessResults(IEnumerable<SqlModels.Movies> Movies)
+
+        /*private void ProcessResults(IEnumerable<SqlModels.Movies> Movies)
         {
             Console.WriteLine(BuildSeperator('='));
             Console.WriteLine($"# Movies Found: {Movies.GroupBy(x => x.Title).Count()}");
@@ -164,7 +140,6 @@ namespace PlexBuilder.Service
                 Console.WriteLine($"{movie.Title}\t{movie.Year}");
             }
             Console.WriteLine(BuildSeperator('*'));
-        }
-
+        }*/
     }
 }

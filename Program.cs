@@ -4,20 +4,19 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using PlexBuilder;
 using Serilog;
 using PlexBuilder.SqlModels;
 using PlexBuilder.Service;
-using System.Configuration;
+using PlexBuilder.Extension;
+using PlexBuilder.Models;
 
-namespace Service
+namespace PlexBuilder
 {
     public static class Program
     {
         private static IConfiguration configuration;
 
-
-        static async Task Main(string[] args)
+        public static async Task Main(string[] args)
         {
             //var currentDirectoryPath = Directory.GetCurrentDirectory();
             //var envSettingsPath = Path.Combine(currentDirectoryPath, "envsettings.json");
@@ -27,15 +26,13 @@ namespace Service
             //IHostEnvironment env = HostEnvironmentEnvExtensions.
             // Environment.Devleopment;
 
+            //IWebHostEnvironment.EnvironmentName
             var devSettings = $"appsettings.{EnvironmentName.Development}.json";
-            //Console.WriteLine();
 
             configuration = new ConfigurationBuilder()
-                
                //.SetBasePath(env.ContentRootPath)
-               .AddJsonFile(@"appsettings.json")
+               .AddJsonFile("appsettings.json")
                .AddJsonFile(devSettings, true, false)
-               //.AddJsonFile(@"appsettings.development.json", false, false)
                .Build();
 
             Log.Logger = new LoggerConfiguration()
@@ -48,7 +45,7 @@ namespace Service
                 Log.Information("Starting host");
 
                 var builder = CreateHostBuilder(args).Build();
-                builder.Run();
+                await builder.RunAsync().ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -60,22 +57,18 @@ namespace Service
             }
         }
 
-
-
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .UseSerilog()
-                .ConfigureServices((hostContext, services) =>
+                .ConfigureServices((_, services) =>
                 {
                     services.AddDbContext<PlexContext>(option =>
-                    {
-                        option.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
-                    });
-
-                    //services.AddScoped<Configuration, IConfiguration>();
-
+                        option.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
                     services.AddScoped<PlexBase<TvShow>, TvShowService>();
                     services.AddScoped<PlexBase<Movies>, MoviesService>();
+
+                    services.AddConfig<AppSettings>(configuration.GetSection("Appsettings"));
+
                     services.AddHostedService<PlexService>();
                 });
     }

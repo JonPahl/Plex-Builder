@@ -1,240 +1,182 @@
 ﻿using System;
+using System.Xml.Serialization;
+using System.ComponentModel;
 
 namespace PlexBuilder.Models.Tv
 {
-    public class TvShow
+    public static class TvShow
     {
-        // NOTE: Generated code may require at least .NET Framework 4.5 or .NET Core/Standard 2.0.
-        /// <remarks/>
-        [System.SerializableAttribute()]
-        [System.ComponentModel.DesignerCategoryAttribute("code")]
-        [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-        [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
-        public partial class MediaContainer
+        // NOTE: Generated code may require at least .NET Framework 4.5 or .NET Core/Standard 2.0.        
+        [Serializable]
+        [DesignerCategory("code")]
+        [XmlType(AnonymousType = true)]
+        [XmlRoot(Namespace = "", IsNullable = false)]
+        public class MediaContainer
         {
-
-            /// <remarks/>
-            [System.Xml.Serialization.XmlElementAttribute("Directory")]
+            [XmlElement("Directory")]
             public MediaContainerDirectory[] Directory { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public UInt64 size { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public Int64 totalSize { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public UInt64 allowSync { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public string art { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public string identifier { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public UInt64 librarySectionID { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public string librarySectionTitle { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public string librarySectionUUID { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public string mediaTagPrefix { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public UInt64 mediaTagVersion { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public byte nocache { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public byte offset { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public string thumb { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public string title1 { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public string title2 { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public string viewGroup { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public UInt64 viewMode { get; set; }
         }
 
-        /// <remarks/>
-        [System.SerializableAttribute()]
-        [System.ComponentModel.DesignerCategoryAttribute("code")]
-        [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-        public partial class MediaContainerDirectory
+        [Serializable]
+        [DesignerCategory("code")]
+        [XmlType(AnonymousType = true)]
+        public class MediaContainerDirectory
         {
-
-            /// <remarks/>
-            [System.Xml.Serialization.XmlElementAttribute("Genre")]
+            [XmlElement("Genre")]
             public MediaContainerDirectoryGenre[] Genre { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlElementAttribute("Role")]
+            [XmlElement("Role")]
             public MediaContainerDirectoryRole[] Role { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public ushort ratingKey { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public string key { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public string guid { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public string studio { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public string type { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public string title { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public string contentRating { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public string summary { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public int index { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public decimal rating { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public int year { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public string thumb { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public string art { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public string banner { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public string theme { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public UInt64 duration { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute(DataType = "date")]
-            public System.DateTime originallyAvailableAt { get; set; }
+            [XmlAttribute(DataType = "date")]
+            public DateTime originallyAvailableAt { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public UInt64 leafCount { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public UInt64 viewedLeafCount { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public UInt64 childCount { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public UInt64 addedAt { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public UInt64 updatedAt { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public UInt64 viewCount { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlIgnoreAttribute()]
+            [XmlIgnore]
             public bool viewCountSpecified { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public UInt64 lastViewedAt { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlIgnoreAttribute()]
+            [XmlIgnore]
             public bool lastViewedAtSpecified { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public string titleSort { get; set; }
         }
 
-        /// <remarks/>
-        [System.SerializableAttribute()]
-        [System.ComponentModel.DesignerCategoryAttribute("code")]
-        [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+        [Serializable]
+        [DesignerCategory("code")]
+        [XmlType(AnonymousType = true)]
         public partial class MediaContainerDirectoryGenre
         {
-
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public string tag { get; set; }
         }
 
-        /// <remarks/>
-        [System.SerializableAttribute()]
-        [System.ComponentModel.DesignerCategoryAttribute("code")]
-        [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+        [Serializable]
+        [DesignerCategory("code")]
+        [XmlType(AnonymousType = true)]
         public partial class MediaContainerDirectoryRole
         {
-
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public string tag { get; set; }
         }
-
-
-
     }
 }

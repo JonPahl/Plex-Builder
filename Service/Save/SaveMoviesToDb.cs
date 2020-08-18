@@ -30,20 +30,18 @@ namespace PlexBuilder.Service.Save
             //else{record.Id = recordId;UpdateRecord(record);Console.WriteLine("Updated");}
         }
 
-        
         private void UpdateRecord<T>(T item)
         {
             Movies record = item as Movies;
             try
             {
-                context.Update(record);                
+                context.Update(record);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-
 
         private void InsertRecord<T>(T item)
         {
@@ -75,6 +73,5 @@ namespace PlexBuilder.Service.Save
         {
             context.Dispose();
         }
-
     }
 }

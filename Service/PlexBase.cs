@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PlexBuilder.SqlModels;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -13,45 +14,37 @@ namespace PlexBuilder.Service
         public abstract List<KeyValuePair<string, int>> LibraryIds { get; }
         public abstract List<T> Library { get; set; }
 
-               
-        public PlexBase(PlexConfig config)
+        protected readonly int pageSize = 1;
+        protected readonly PlexContext context;
+
+        protected PlexBase(PlexConfig config, PlexContext context)
         {
-            this.config = config;            
+            this.config = config;
+            this.context = context;
         }
 
         public static string BuildSeperator(char item, int cnt = 20) => new string(item, cnt);
 
-        protected  Uri RequestUrl(int Id, int start, int pageSize)
+        protected Uri RequestUrl(int Id, int start, int pageSize)
         {
             var url = $"{config.BaseUrl}/library/sections/{Id}/all?X-Plex-Token={config.Token}";
             url += $"&X-Plex-Container-Start={start}&X-Plex-Container-Size={pageSize}";
-            return new Uri(url); //Console.WriteLine(url);
+            return new Uri(url);
         }
 
-        public static bool FileExists(string path)
+        public virtual TOutput LoadPlex<TOutput>(Uri uri)
         {
-            try
-            {
-                var exits = File.Exists(Path.GetFullPath(path.Trim()));
-                return exits;                
-            } catch (Exception)
-            {
-                return false;
-            }
+            var reader = new XmlTextReader(uri.ToString());
+
+            var serializer = new XmlSerializer(typeof(TOutput));
+
+            var envelope = (TOutput)serializer.Deserialize(reader);
+
+            return (TOutput)Convert.ChangeType(envelope, typeof(TOutput));
         }
 
-
-        public static T LoadPlex<T>(Uri uri)
-        {
-            using XmlTextReader reader = new XmlTextReader(uri.AbsoluteUri);
-            var serializer = new XmlSerializer(typeof(T));
-            var library = (T)serializer.Deserialize(reader);
-
-            return library;
-        }
-
-        public abstract Task<T> GetLibaries<T>(Uri uri);
-        public abstract void PrintResults<T>(T libraries);
-
+        public static bool FileExists(string path) => File.Exists(Path.GetFullPath(path.Trim()));
+        public abstract Task<TOutput> GetLibaries<TOutput>(Uri uri);
+        public abstract void PrintResults<TInput>(TInput libraries);
     }
 }

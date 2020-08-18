@@ -1,196 +1,111 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Xml.Serialization;
+using System.ComponentModel;
 namespace PlexBuilder.Models
 {
-
-    [Serializable()]
-
-    public class Libraries
+    [Serializable]
+    public static class Libraries
     {
-
-        // NOTE: Generated code may require at least .NET Framework 4.5 or .NET Core/Standard 2.0.
-        /// <remarks/>
-        [System.SerializableAttribute()]
-        [System.ComponentModel.DesignerCategoryAttribute("code")]
-        [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-        [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
-        public partial class MediaContainer
+        // NOTE: Generated code may require at least .NET Framework 4.5 or .NET Core/Standard 2.0.        
+        [Serializable]
+        [DesignerCategory("code")]
+        [XmlType(AnonymousType = true)]
+        [XmlRoot(Namespace = "", IsNullable = false)]
+        public class MediaContainer
         {
-            private byte sizeField;
-            private string identifierField;
-            private uint mediaTagVersionField;
-
-            /// <remarks/>
-            [System.Xml.Serialization.XmlElementAttribute("Directory")]
+            [XmlElement("Directory")]
             public MediaContainerDirectory[] Directory { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public byte size
-            {
-                get => this.sizeField;
-                set => this.sizeField = value;
-            }
+            [XmlAttribute]
+            public byte size { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public byte allowSync { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public string identifier
-            {
-                get => this.identifierField;
-                set => this.identifierField = value;
-            }
+            [XmlAttribute]
+            public string identifier { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public string mediaTagPrefix { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public uint mediaTagVersion
-            {
-                get => this.mediaTagVersionField;
-                set => this.mediaTagVersionField = value;
-            }
+            [XmlAttribute]
+            public uint mediaTagVersion { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public string title1 { get; set; }
         }
 
-        /// <remarks/>
-        [System.SerializableAttribute()]
-        [System.ComponentModel.DesignerCategoryAttribute("code")]
-        [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-        public partial class MediaContainerDirectory
+        [Serializable]
+        [DesignerCategory("code")]
+        [XmlType(AnonymousType = true)]
+        public class MediaContainerDirectory
         {
-            private byte allowSyncField;
-            private string compositeField;
-            private byte refreshingField;
-            private string uuidField;
-            private uint scannedAtField;
-            private byte directoryField;
-            private bool enableAutoPhotoTagsFieldSpecified;
-
-            /// <remarks/>
-            [System.Xml.Serialization.XmlElementAttribute("Location")]
+            [XmlElement("Location")]
             public MediaContainerDirectoryLocation[] Location { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public byte allowSync
-            {
-                get => this.allowSyncField;
-                set => this.allowSyncField = value;
-            }
+            [XmlAttribute]
+            public byte allowSync { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public string art { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public string composite
-            {
-                get => this.compositeField;
-                set => this.compositeField = value;
-            }
+            [XmlAttribute]
+            public string composite { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public byte filters { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public byte refreshing
-            {
-                get => this.refreshingField;
-                set => this.refreshingField = value;
-            }
+            [XmlAttribute]
+            public byte refreshing { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public string thumb { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public byte key { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public string type { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public string title { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public string agent { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public string scanner { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public string language { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public string uuid
-            {
-                get => this.uuidField;
-                set => this.uuidField = value;
-            }
+            [XmlAttribute]
+            public string uuid { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public uint updatedAt { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public uint createdAt { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public uint scannedAt
-            {
-                get => this.scannedAtField;
-                set => this.scannedAtField = value;
-            }
+            [XmlAttribute]
+            public uint scannedAt { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public byte content { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public byte directory
-            {
-                get => this.directoryField;
-                set => this.directoryField = value;
-            }
+            [XmlAttribute]
+            public byte directory { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public uint contentChangedAt { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public byte enableAutoPhotoTags { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlIgnoreAttribute()]
-            public bool enableAutoPhotoTagsSpecified
-            {
-                get => this.enableAutoPhotoTagsFieldSpecified;
-                set => this.enableAutoPhotoTagsFieldSpecified = value;
-            }
+            [XmlIgnore]
+            public bool enableAutoPhotoTagsSpecified { get; set; }
 
             internal IEnumerable<object> ToList()
             {
@@ -198,29 +113,16 @@ namespace PlexBuilder.Models
             }
         }
 
-        /// <remarks/>
-        [System.SerializableAttribute()]
-        [System.ComponentModel.DesignerCategoryAttribute("code")]
-        [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-        public partial class MediaContainerDirectoryLocation
+        [Serializable]
+        [DesignerCategory("code")]
+        [XmlType(AnonymousType = true)]
+        public class MediaContainerDirectoryLocation
         {
-            private string pathField;
-
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [XmlAttribute]
             public byte id { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public string path
-            {
-                get => this.pathField;
-                set => this.pathField = value;
-            }
+            [XmlAttribute]
+            public string path { get; set; }
         }
-
-
-
-
     }
 }

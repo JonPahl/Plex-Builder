@@ -1,7 +1,8 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
+﻿using Microsoft.Extensions.Hosting;
 using PlexBuilder.Concrete;
+using PlexBuilder.Models;
 using PlexBuilder.Service;
+using PlexBuilder.SqlModels;
 using System;
 using System.Linq;
 using System.Threading;
@@ -10,42 +11,34 @@ using System.Threading.Tasks;
 namespace PlexBuilder
 {
     public class PlexService : IHostedService
-    {        
+    {
         private static PlexConfig config;
-        
+
         private AllLibrariesService allLibraries;
-        //private IConfiguration configuration;
+        private PlexContext Context { get; }
 
-        public PlexService(IConfiguration configuration)
+        public PlexService(PlexContext context, AppSettings setting)
         {
-            //this.configuration = configuration;
-
-            var appSettings = configuration.GetSection("Appsettings").GetChildren();
-            
-            //Key = "PlexName"
-            var username = appSettings.FirstOrDefault(x => Equals(x.Key, "PlexName")).Value;   //"-- Plex Username --";
-            var pwd = appSettings.FirstOrDefault(x => Equals(x.Key, "PlexPwd")).Value; //"-- Plex Password --";
-
-            var login = new PlexLogin(username, pwd);
+            Context = context;
+            var login = new PlexLogin(setting);
             var token = login.Login().Result;
             config = new PlexConfig
             {
-                BaseUrl = appSettings.FirstOrDefault(x => Equals(x.Key, "PlexServer")).Value, // "http://127.0.0.1:32400",
+                BaseUrl = setting.PlexServer,
                 Token = token
             };
         }
 
-
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            Console.WriteLine($@"Hello to the plex server api test app.{Environment.NewLine}");
+            Console.WriteLine($"Hello to the plex server api test app.{Environment.NewLine}");
             await Run().ConfigureAwait(false);
         }
 
         public async Task StopAsync(CancellationToken cancellationToken)
         {
             await Task.Run(() => Console.Write("Stopped"))
-                .ConfigureAwait(true); ;            
+                .ConfigureAwait(true);
         }
 
         private async Task Run()
@@ -58,13 +51,12 @@ namespace PlexBuilder
 
         private async Task FindAllLibraries()
         {
-            allLibraries = new AllLibrariesService(config);
+            allLibraries = new AllLibrariesService(config, this.Context);
             await allLibraries.Execute().ConfigureAwait(true);
 
             Console.WriteLine(PlexBase<object>.BuildSeperator('-'));
             Console.WriteLine(Environment.NewLine);
         }
-
 
         private async Task FindMovies()
         {
@@ -72,10 +64,9 @@ namespace PlexBuilder
                 .Where(x => x.Key == "Movies")
                 .OrderBy(x => x.Key).ToList();
 
-            var MoviceService = new MoviesService(config);
+            var MoviceService = new MoviesService(config, Context);
             await MoviceService.Execute(movies).ConfigureAwait(true);
         }
-
 
         private async Task FindTvShows()
         {
@@ -86,7 +77,5 @@ namespace PlexBuilder
             var TvService = new TvShowService(config, new SqlModels.PlexContext());
             await TvService.Execute(TvShows).ConfigureAwait(true);
         }
-
-
     }
 }

@@ -11,17 +11,14 @@ namespace PlexBuilder.Service
     public class TvShowService : PlexBase<SqlModels.TvShow>
     {
         public override List<KeyValuePair<string, int>> LibraryIds { get; }
-        public override List<SqlModels.TvShow> Library { get; set; }               
+        public override List<SqlModels.TvShow> Library { get; set; }
 
         private int Id;
         private int start = 0;
-        private int pageSize = 1;
-        PlexContext context;
 
-        public TvShowService(PlexConfig config, PlexContext context) : base(config)
+        public TvShowService(PlexConfig config, PlexContext context) : base(config, context)
         {
             Library = new List<SqlModels.TvShow>();
-            this.context = context;
         }
 
         public async Task Execute(List<KeyValuePair<string, int>> tvShows)
@@ -47,8 +44,7 @@ namespace PlexBuilder.Service
 
             //SaveTvShows(TvShowsLibraries);
 
-
-
+            #region Clean up
             var save = new SaveToFile(@"C:\Temp\TvShowFile.txt");
             foreach (var tvShow in Library)
             {
@@ -61,24 +57,7 @@ namespace PlexBuilder.Service
                     Console.WriteLine(ex.Message);
                 }
             }
-
-
-            /*
-             //todo: uncomment the following to save database instead of file.
-            var saveTvShows = new SaveTvShowToDb();
-            foreach (var tvShow in TvShowsLibraries)
-            {
-                try
-                {
-                    saveTvShows.SaveRecord(tvShow);
-                } catch(Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                    saveTvShows.Save();
-                }
-            }
-            saveTvShows.Save();
-            */
+            #endregion
 
             ProcessResults(Library);
         }
@@ -94,15 +73,14 @@ namespace PlexBuilder.Service
             return (T)Convert.ChangeType(result, typeof(T));
         }
 
-
         private async Task<List<Models.Tv.TvShow.MediaContainerDirectory>> LoadData<T>(Uri uri, List<Models.Tv.TvShow.MediaContainerDirectory> list)
         {
-            Models.Tv.TvShow.MediaContainer xml = new Models.Tv.TvShow.MediaContainer();
+            var xml = new Models.Tv.TvShow.MediaContainer();
             try
             {
                 xml = LoadPlex<T>(uri) as Models.Tv.TvShow.MediaContainer;
 
-                if (xml.Directory != null && xml.Directory.Any())
+                if (xml?.Directory != null && xml.Directory.Length > 0)
                     list.AddRange(xml.Directory.ToList().Select(video => video));
 
                 if (xml.totalSize == Convert.ToInt64(start))
@@ -129,15 +107,12 @@ namespace PlexBuilder.Service
             }
         }
 
-
-
         /// <summary>
-        /// 
         /// * todo: break into 2 sub-methods.
         /// * 1. Load Seasons list, this returns a directory of 0-n season.
         /// * 2. Key from season is then feed into episode method.
-        /// * 2a.Once an episodes xml->object is complted the object is returned.
-        /// * 3. Process season & episodes into DBobject to insert into the database.             
+        /// * 2a.Once an episodes xml->object is completed the object is returned.
+        /// * 3. Process season & episodes into DBobject to insert into the database.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="libraries"></param>
@@ -145,7 +120,7 @@ namespace PlexBuilder.Service
         {
             var TvShows = libraries as Models.Tv.TvShow.MediaContainer;
 
-            if (TvShows.Directory.Any())
+            if (TvShows.Directory.Length > 0)
             {
                 foreach (var tvShow in TvShows.Directory.ToList())
                 {
@@ -181,15 +156,13 @@ namespace PlexBuilder.Service
             var url = $"{config.BaseUrl}{media}?X-Plex-Token={config.Token}";
             try
             {
-                var xmlInputData = (LoadPlex<T>(new Uri(url)));
-                return xmlInputData;
+                return LoadPlex<T>(new Uri(url));
             }
             catch (Exception ex)
             {
                 throw new Exception($"Error with xml @{url}", ex);
             }
         }
-
 
         private void ProcessResults(IEnumerable<SqlModels.TvShow> Shows)
         {
