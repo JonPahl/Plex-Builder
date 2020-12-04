@@ -12,7 +12,7 @@ namespace PlexBuilder.Service
     {
         protected PlexConfig config;
         public abstract List<KeyValuePair<string, int>> LibraryIds { get; }
-        public abstract List<T> Library { get; set; }
+        public virtual List<T> Libraries { get; set; }
 
         protected readonly int pageSize = 1;
         protected readonly PlexContext context;
@@ -34,17 +34,16 @@ namespace PlexBuilder.Service
 
         public virtual TOutput LoadPlex<TOutput>(Uri uri)
         {
-            var reader = new XmlTextReader(uri.ToString());
-
+            using var reader = new XmlTextReader(uri.ToString());
             var serializer = new XmlSerializer(typeof(TOutput));
-
             var envelope = (TOutput)serializer.Deserialize(reader);
-
             return (TOutput)Convert.ChangeType(envelope, typeof(TOutput));
         }
 
-        public static bool FileExists(string path) => File.Exists(Path.GetFullPath(path.Trim()));
-        public abstract Task<TOutput> GetLibaries<TOutput>(Uri uri);
+        public static bool FileExists(string path) => File.Exists(Path.GetFullPath(path?.Trim()));
+
+        public virtual Task<TOutput> GetLibariesAsync<TOutput>(Uri uri) { throw new NotImplementedException(""); }
+        public virtual TOutput GetLibaries<TOutput>(Uri url) { throw new NotImplementedException(""); }
         public abstract void PrintResults<TInput>(TInput libraries);
     }
 }

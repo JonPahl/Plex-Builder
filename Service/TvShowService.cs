@@ -11,14 +11,14 @@ namespace PlexBuilder.Service
     public class TvShowService : PlexBase<SqlModels.TvShow>
     {
         public override List<KeyValuePair<string, int>> LibraryIds { get; }
-        public override List<SqlModels.TvShow> Library { get; set; }
+        public override List<SqlModels.TvShow> Libraries { get; set; }
 
         private int Id;
         private int start = 0;
 
         public TvShowService(PlexConfig config, PlexContext context) : base(config, context)
         {
-            Library = new List<SqlModels.TvShow>();
+            Libraries = new List<SqlModels.TvShow>();
         }
 
         public async Task Execute(List<KeyValuePair<string, int>> tvShows)
@@ -30,7 +30,7 @@ namespace PlexBuilder.Service
                 Id = id.Value;
                 try
                 {
-                    var details = await GetLibaries<Models.Tv.TvShow.MediaContainer>(new Uri(config.BaseUrl))
+                    var details = await GetLibariesAsync<Models.Tv.TvShow.MediaContainer>(new Uri(config.BaseUrl))
                         .ConfigureAwait(true);
 
                     PrintResults(details);
@@ -46,7 +46,7 @@ namespace PlexBuilder.Service
 
             #region Clean up
             var save = new SaveToFile(@"C:\Temp\TvShowFile.txt");
-            foreach (var tvShow in Library)
+            foreach (var tvShow in Libraries)
             {
                 try
                 {
@@ -59,10 +59,10 @@ namespace PlexBuilder.Service
             }
             #endregion
 
-            ProcessResults(Library);
+            ProcessResults(Libraries);
         }
 
-        public override async Task<T> GetLibaries<T>(Uri uri)
+        public override async Task<T> GetLibariesAsync<T>(Uri uri)
         {
             var list = new List<Models.Tv.TvShow.MediaContainerDirectory>();
             var url = RequestUrl(Id, start, pageSize);
@@ -144,7 +144,7 @@ namespace PlexBuilder.Service
                                 LastUpdated = DateTime.Now
                             };
 
-                            Library.Add(show);
+                            Libraries.Add(show);
                         }
                     }
                 }

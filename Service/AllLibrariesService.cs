@@ -10,40 +10,33 @@ namespace PlexBuilder.Service
     public class AllLibrariesService : PlexBase<Libraries.MediaContainer>
     {
         public override List<KeyValuePair<string, int>> LibraryIds { get; }
-        public override List<Libraries.MediaContainer> Library { get; set; }
+        //public override Libraries.MediaContainer Libraries { get; set; }
 
         public AllLibrariesService(PlexConfig config, PlexContext context) : base(config, context)
         {
-            Library = new List<Libraries.MediaContainer>();
+            //Libraries = new Libraries.MediaContainer;
             LibraryIds = new List<KeyValuePair<string, int>>();
         }
 
         public async Task Execute()
         {
             var url = $"{config.BaseUrl}/library/sections?X-Plex-Token={config.Token}";
-            var results = await GetLibaries<Libraries.MediaContainer>(new Uri(url)).ConfigureAwait(true);
+            var results = GetLibaries<Libraries.MediaContainer>(new Uri(url));
             PrintResults(results);
         }
 
-        public override async Task<T> GetLibaries<T>(Uri uri)
-        {
-            var xmlInputData = LoadPlex<T>(uri);
-            return (T)Convert.ChangeType(xmlInputData, typeof(T));
-        }
+        public override T GetLibaries<T>(Uri uri) => (T)Convert.ChangeType(LoadPlex<T>(uri), typeof(T));
 
         public override void PrintResults<T>(T libraries)
         {
             var library = libraries as Libraries.MediaContainer;
-
-            //foreach(var location in library.Directory) {
-            //    var item = new KeyValuePair<string, int>(location.title, location.key);
-            //    LibraryIds.Add(item);
-            //    LibraryIds.AddRange(from loc in location.Location.ToList()
-            // select new KeyValuePair<string, int>(location.title, loc.id)); }
-
-            LibraryIds
-                .AddRange(library.Directory.ToList().OrderBy(x => x.key)
+            LibraryIds.AddRange(library.Directory.ToList().OrderBy(x => x.key)
                 .Select(location => new KeyValuePair<string, int>(location.title, location.key)));
+
+            foreach(var Libary in LibraryIds)
+            {
+                Console.WriteLine($"{Libary.Value} : {Libary.Key}");
+            }
         }
     }
 }

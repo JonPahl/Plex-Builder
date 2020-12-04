@@ -25,6 +25,5 @@ namespace PlexBuilder
                 return textWriter.ToString();
             }
         }
-
-    }       
+    }
 }

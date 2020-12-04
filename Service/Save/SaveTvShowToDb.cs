@@ -8,7 +8,7 @@ namespace PlexBuilder.Service
 
     public class SaveTvShowToDb : IDisposable, ISaveRecord
     {
-        bool disposed = false;
+        private bool disposed;
 
         private readonly PlexContext context;
         public SaveTvShowToDb()
@@ -38,7 +38,7 @@ namespace PlexBuilder.Service
                 var savedRecord = context.TvShow
                         .Where(x => x.Title == record.Title).ToList()
                         .Where(x => x.Episode == record.Episode).ToList()
-                        .Where(x => x.File == record.File).FirstOrDefault();
+                        .Find(x => x.File == record.File);
 
                 if (savedRecord == null)
                 {

@@ -12,14 +12,14 @@ namespace PlexBuilder.Service
     public class MoviesService : PlexBase<SqlModels.Movies>
     {
         public override List<KeyValuePair<string, int>> LibraryIds { get; }
-        public override List<SqlModels.Movies> Library { get; set; }
+        public override List<SqlModels.Movies> Libraries { get; set; }
 
         private int Id;
         private int start = 0;
 
         public MoviesService(PlexConfig config, PlexContext context) : base(config, context)
         {
-            Library = new List<SqlModels.Movies>();
+            Libraries = new List<SqlModels.Movies>();
         }
 
         public async Task Execute(List<KeyValuePair<string, int>> movies)
@@ -33,8 +33,8 @@ namespace PlexBuilder.Service
                 {
                     Console.WriteLine(Environment.NewLine + BuildSeperator('-') + Environment.NewLine);
 
-                    var details = await GetLibaries<List<Movies.MediaContainer>>(new Uri(config.BaseUrl))
-                        .ConfigureAwait(false);
+                    var details = await GetLibariesAsync<List<Movies.MediaContainer>>
+                        (new Uri(config.BaseUrl)).ConfigureAwait(false);
 
                     PrintResults(details);
                 }
@@ -55,13 +55,13 @@ namespace PlexBuilder.Service
             //ProcessResults(Library);
         }
 
-        public override async Task<T> GetLibaries<T>(Uri uri)
-        {
-            var list = new List<Movies.MediaContainer>();
 
+        public override async Task<TOutput> GetLibariesAsync<TOutput>(Uri uri)
+        {
             var Uri = RequestUrl(Id, start, pageSize);
+            var list = new List<Movies.MediaContainer>();
             var results = await LoadData<Movies.MediaContainer>(Uri, list).ConfigureAwait(true);
-            return (T)Convert.ChangeType(results, typeof(T));
+            return (TOutput)Convert.ChangeType(results, typeof(TOutput));
         }
 
         private async Task<List<Movies.MediaContainer>> LoadData<T>(Uri uri, List<Movies.MediaContainer> list)
@@ -69,6 +69,7 @@ namespace PlexBuilder.Service
             try
             {
                 var xml = LoadPlex<Movies.MediaContainer>(uri);
+                list.Add(xml);
 
                 if (xml.totalSize <= Convert.ToUInt64(start))
                 {
@@ -84,18 +85,19 @@ namespace PlexBuilder.Service
             catch (Exception ex)
             {
                 Console.WriteLine(Environment.NewLine);
-                Console.WriteLine(ex.Message);
-                Console.WriteLine(ex.InnerException?.Message);
-                Console.WriteLine(ex.StackTrace);
+                //Console.WriteLine(ex.Message);
+                //Console.WriteLine(ex.InnerException?.Message);
+                //Console.WriteLine(ex.StackTrace);
                 Console.WriteLine(uri);
+                Console.WriteLine(Environment.NewLine);
             }
 
-            return list;
+            return await Task.Run(() => list).ConfigureAwait(false);
         }
 
         public override TOutput LoadPlex<TOutput>(Uri uri)
         {
-            var reader = new XmlTextReader(uri.ToString());
+            using var reader = new XmlTextReader(uri.ToString());
             var serializer = new XmlSerializer(typeof(Movies.MediaContainer));
             var envelope = serializer.Deserialize(reader) as Movies.MediaContainer;
             return (TOutput)Convert.ChangeType(envelope, typeof(Movies.MediaContainer));
@@ -103,43 +105,28 @@ namespace PlexBuilder.Service
 
         public override void PrintResults<T>(T libraries)
         {
-            if (!(libraries is List<Movies.MediaContainer> details))
+            if (libraries is not List<Movies.MediaContainer> details)
                 throw new InvalidCastException("Libraries is of wrong type");
 
-            foreach (var item in details)
+            foreach (var detail in details)
             {
-                var media = item.Video.Media;
-
-                var file = media.Part.file;
-
-                var movie = new SqlModels.Movies
+                if (detail.Video != null)
                 {
-                    Title = item.Video.title,
-                    Year = item.Video.year,
-                    File = file,
-                    IsAvailable = FileExists(file),
-                    LastUpdated = DateTime.Now,
-                };
+                    var media = detail.Video.Media;
+                    var file = media.Part.file;
+                    var movie = new SqlModels.Movies
+                    {
+                        Title = detail.Video.title,
+                        Year = detail.Video.year,
+                        File = file,
+                        IsAvailable = FileExists(file),
+                        LastUpdated = DateTime.Now,
+                    };
 
-                foreach(var prop in movie.GetType().GetProperties().ToList())
-                {
-                    Console.WriteLine($"{prop.Name} ::{prop.GetValue(movie)}");
+                    Console.WriteLine(movie.ToString());
+                    Libraries.Add(movie);
                 }
-
-                Library.Add(movie);
             }
         }
-
-        /*private void ProcessResults(IEnumerable<SqlModels.Movies> Movies)
-        {
-            Console.WriteLine(BuildSeperator('='));
-            Console.WriteLine($"# Movies Found: {Movies.GroupBy(x => x.Title).Count()}");
-            Console.WriteLine(BuildSeperator('*'));
-            foreach (var movie in Movies)
-            {
-                Console.WriteLine($"{movie.Title}\t{movie.Year}");
-            }
-            Console.WriteLine(BuildSeperator('*'));
-        }*/
     }
 }

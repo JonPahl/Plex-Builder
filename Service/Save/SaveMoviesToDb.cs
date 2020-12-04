@@ -4,12 +4,22 @@ using System.Linq;
 
 namespace PlexBuilder.Service.Save
 {
+    /// <summary>
+    /// Save outputs from XML into a database.
+    /// </summary>
+    /// <seealso cref="IDisposable" />
+    /// <seealso cref="ISaveRecord" />
     public class SaveMoviesToDb : IDisposable, ISaveRecord
     {
         private readonly PlexContext context;
         public SaveMoviesToDb()
         {
             context = new PlexContext();
+        }
+
+        public SaveMoviesToDb(PlexContext context)
+        {
+            this.context = context;
         }
 
         public void Save()
@@ -63,15 +73,20 @@ namespace PlexBuilder.Service.Save
             var savedRecord = context.Movies
                         .Where(x => x.Title == record.Title)
                         .ToList()
-                        .Where(x => x.Year == record.Year)
-                        .FirstOrDefault();
+                        .FirstOrDefault(x => x.Year == record.Year);
 
             return savedRecord == null ? -1 : savedRecord.Id;
+        }
+
+        public void Dispose(bool dispose)
+        {
+            Dispose();
         }
 
         public void Dispose()
         {
             context.Dispose();
+            GC.SuppressFinalize(context);
         }
     }
 }

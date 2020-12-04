@@ -35,17 +35,14 @@ namespace PlexBuilder
             await Run().ConfigureAwait(false);
         }
 
-        public async Task StopAsync(CancellationToken cancellationToken)
-        {
-            await Task.Run(() => Console.Write("Stopped"))
-                .ConfigureAwait(true);
-        }
+        public async Task StopAsync(CancellationToken cancellationToken) 
+            => await Task.Run(() => Console.Write("Stopped"), cancellationToken).ConfigureAwait(true);
 
         private async Task Run()
         {
             await FindAllLibraries().ConfigureAwait(true);
             await FindMovies().ConfigureAwait(true);
-            await FindTvShows().ConfigureAwait(true);
+            //await FindTvShows().ConfigureAwait(true);
             return;
         }
 
