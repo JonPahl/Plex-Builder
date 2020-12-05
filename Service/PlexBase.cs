@@ -9,19 +9,18 @@ using System.Xml.Serialization;
 namespace PlexBuilder.Service
 {
     public abstract class PlexBase<T>
-    {        
+    {
         public abstract List<KeyValuePair<string, int>> LibraryIds { get; }
         public virtual List<T> Libraries { get; set; }
-
         protected readonly int pageSize = 1;
-        protected readonly PlexContext context;
+        protected PlexContext Context { get; set; }
 
         protected PlexBase(PlexContext context)
         {
-            context = context;
+            Context = context;
         }
 
-        protected Uri RequestUrl(int Id, int start, int pageSize)
+        protected Uri RequestUrl(int Id, int start, int pageSize = 1)
         {
             var pathBuilder = new StringBuilder();
             pathBuilder.Append("library/sections/").Append(Id).Append("/all");
@@ -40,7 +39,7 @@ namespace PlexBuilder.Service
             using var reader = new XmlTextReader(uri.ToString());
             var serializer = new XmlSerializer(typeof(TOutput));
             var envelope = (TOutput)serializer.Deserialize(reader);
-            return (TOutput)Convert.ChangeType(envelope, typeof(TOutput));
+            return (TOutput) Convert.ChangeType(envelope, typeof(TOutput));
         }
 
         public virtual Task<TOutput> GetLibariesAsync<TOutput>(Uri uri) { throw new NotImplementedException(""); }

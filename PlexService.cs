@@ -51,11 +51,9 @@ namespace PlexBuilder
             Execute(movieCmd);
             Execute(tvShowCmd);
 
-            var movies = movieCmd.GetResults();
-            var tvShows = movieCmd.GetResults();
-
-            var moviesResults = movieCmd.GetResults();
-
+            //var movies = movieCmd.GetResults();
+            //var tvShows = movieCmd.GetResults();
+            //object moviesResults = movieCmd.GetResults();
 
             //Execute(new MovieCommand(Context, Setting));
             //Execute(new TvShowCommand(Context, Setting));

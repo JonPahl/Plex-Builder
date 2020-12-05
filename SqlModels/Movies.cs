@@ -17,11 +17,11 @@ namespace PlexBuilder.SqlModels
         public override string ToString()
         {
             var builder = new StringBuilder();
-            builder.AppendFormat("{0} | ", Title)
-                .AppendFormat("{0} | ", Year)
-                .AppendFormat("{0} | ", File)
-                .AppendFormat("{0} | ", IsAvailable)
-                .AppendFormat("{0} ", DateTime.Now);
+            builder.Append(Title).Append(" | ")
+                .Append(Year).Append(" | ")
+                .Append(File).Append(" | ")
+                .Append(IsAvailable).Append(" | ")
+                .Append(DateTime.Now).Append(' ');
 
             return builder.ToString();
         }

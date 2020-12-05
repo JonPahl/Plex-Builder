@@ -65,15 +65,18 @@ namespace PlexBuilder
                 .UseSerilog()
                 .ConfigureServices((_, services) =>
                 {
-                    services.AddDbContext<PlexContext>(option =>
-                        option.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
-                    services.AddScoped<PlexBase<TvShow>, TvShowService>();
-                    services.AddScoped<PlexBase<Movies>, MoviesService>();
-                    services.AddConfig<AppSettings>(configuration.GetSection("Appsettings"));
+                    services.AddConfig(configuration);
                     services.AddHostedService<PlexService>();
 
-                    services.AddScoped<ICommand, MovieCommand>();
-                    services.AddScoped<ICommand, TvShowCommand>();
+                    //services.AddDbContext<PlexContext>(option =>
+                    //    option.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+                    //services.AddScoped<PlexBase<TvShow>, TvShowService>();
+                    //services.AddScoped<PlexBase<Movies>, MoviesService>();
+                    //services.AddConfig<AppSettings>(configuration.GetSection("Appsettings"));
+                    //services.AddHostedService<PlexService>();
+
+                    //services.AddScoped<ICommand, MovieCommand>();
+                    //services.AddScoped<ICommand, TvShowCommand>();
                 });
     }
 }

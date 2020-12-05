@@ -1,5 +1,4 @@
 ﻿using PlexBuilder.Models.Tv;
-using PlexBuilder.Service.Save;
 using PlexBuilder.SqlModels;
 using System;
 using System.Collections.Generic;
@@ -41,25 +40,6 @@ namespace PlexBuilder.Service
                     Console.WriteLine(ex.StackTrace);
                 }
             }
-
-            //SaveTvShows(TvShowsLibraries);
-
-            #region Clean up
-            var save = new SaveToFile(@"C:\Temp\TvShowFile.txt");
-            foreach (var tvShow in Libraries)
-            {
-                try
-                {
-                    save.SaveRecord(tvShow);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-            }
-            #endregion
-
-            ProcessResults(Libraries);
         }
 
         public override async Task<T> GetLibariesAsync<T>(Uri uri)
@@ -124,7 +104,6 @@ namespace PlexBuilder.Service
             {
                 foreach (var tvShow in TvShows.Directory.ToList())
                 {
-                    //.TrimStart('/')
                     var seasons = LoadMedia<Season.MediaContainer>(tvShow.key);
 
                     foreach (var season in seasons.Directory.Where(x => x.index > 0))
@@ -162,23 +141,18 @@ namespace PlexBuilder.Service
             }
             catch (Exception ex)
             {
-                var zzz = 0;
                 throw new Exception($"Error with xml @ {uri} ", ex);
             }
         }
 
-        private void ProcessResults(IEnumerable<SqlModels.TvShow> Shows)
-        {
+        /* private void ProcessResults(IEnumerable<SqlModels.TvShow> Shows) {
             Console.WriteLine(Utils.BuildSeperator('='));
             Console.WriteLine($"# Tv Shows Found: {Shows.GroupBy(x => x.Title).Count()}");
             Console.WriteLine(Utils.BuildSeperator('*'));
-            foreach (var TvShow in Shows.GroupBy(x => x.Title))
-            {
+            foreach (var TvShow in Shows.GroupBy(x => x.Title)) {
                 Console.WriteLine(TvShow.Key);
-
-                foreach (var info in TvShow)
-                {
-                    //Console.WriteLine($"{info.Title}\t\t{info.Year}");
+                foreach (var info in TvShow) {                    
+                    Console.WriteLine($"{info.Title}\t\t{info.Year}");
                     Console.Write($"\t{info.Season}");
                     Console.WriteLine($"\t{info.Year}");
                     Console.WriteLine($"\t\tEpisode: {info.Episode}");
@@ -187,11 +161,12 @@ namespace PlexBuilder.Service
                     Console.WriteLine($"\t\tIsAvailable: {info.IsAvailable}");
                     Console.WriteLine();
                 }
-                Console.WriteLine();
-                Console.WriteLine();
-            }
-            Console.WriteLine(Utils.BuildSeperator('*'));
-            Console.WriteLine();
+                //Console.WriteLine();
+                //Console.WriteLine();
+            }            
+            //Console.WriteLine(Utils.BuildSeperator('*'));
+            //Console.WriteLine();            
         }
+        */
     }
 }

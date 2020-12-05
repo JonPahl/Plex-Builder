@@ -11,7 +11,6 @@
 //{
 //    public abstract class APIClient
 //    {
-
 //        /// <summary>
 //        /// Always start with a leading forward slash and end with a ?
 //        /// </summary>
@@ -24,8 +23,6 @@
 //            _config = config;            
 //        }
 //        public abstract Task<T> GetLibaries<T>(Uri uri);
-        
 //        public abstract void PrintResults<T>(T libraries);
-
 //    }
 //}

@@ -13,8 +13,7 @@ namespace PlexBuilder.Extension
             return services.AddConfig<TSettings>(configuration, options => { });
         }
 
-        public static TSettings AddConfig<TSettings>(this IServiceCollection services, IConfiguration configuration, Action<BinderOptions> configureOptions)
-            where TSettings : class, new()
+        public static TSettings AddConfig<TSettings>(this IServiceCollection services, IConfiguration configuration, Action<BinderOptions> configureOptions) where TSettings : class, new()
         {
             if (services == null) { throw new ArgumentNullException(nameof(services)); }
             if (configuration == null) { throw new ArgumentNullException(nameof(configuration)); }
