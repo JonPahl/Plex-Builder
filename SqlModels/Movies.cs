@@ -14,7 +14,6 @@ namespace PlexBuilder.SqlModels
         public bool IsAvailable { get; set; }
         public DateTime? LastUpdated { get; set; }
 
-
         public override string ToString()
         {
             var builder = new StringBuilder();
@@ -26,6 +25,5 @@ namespace PlexBuilder.SqlModels
 
             return builder.ToString();
         }
-
     }
 }

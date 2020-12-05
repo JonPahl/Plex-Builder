@@ -102,7 +102,7 @@ namespace PlexBuilder.Models
         }
 
         [Serializable]
-        [System.ComponentModel.DesignerCategory("code")]
+        [DesignerCategory("code")]
         [XmlType(AnonymousType = true)]
         public partial class userSubscription
         {

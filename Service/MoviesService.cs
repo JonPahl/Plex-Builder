@@ -15,13 +15,13 @@ namespace PlexBuilder.Service
         public override List<SqlModels.Movies> Libraries { get; set; }
 
         private int Id;
-        private int start = 0;
+        private int start;
 
-        public MoviesService(PlexConfig config, PlexContext context) : base(config, context)
+        public MoviesService(PlexContext context) : base(context)
         {
+            start = 0;
             Libraries = new List<SqlModels.Movies>();
         }
-
         public async Task Execute(List<KeyValuePair<string, int>> movies)
         {
             if (movies == null) throw new ArgumentException(" No Movies provided. ");
@@ -31,10 +31,9 @@ namespace PlexBuilder.Service
                 Id = id.Value;
                 try
                 {
-                    Console.WriteLine(Environment.NewLine + BuildSeperator('-') + Environment.NewLine);
-
-                    var details = await GetLibariesAsync<List<Movies.MediaContainer>>
-                        (new Uri(config.BaseUrl)).ConfigureAwait(false);
+                    Console.WriteLine(Environment.NewLine + Utils.BuildSeperator('-') + Environment.NewLine);
+                    var details = await GetLibariesAsync<List<Movies.MediaContainer>>(PlexConfig.BaseUrl)
+                        .ConfigureAwait(false);
 
                     PrintResults(details);
                 }
@@ -54,8 +53,6 @@ namespace PlexBuilder.Service
             //using(var saveMovie=new SaveMoviesToDb()){foreach(var movie in MovieLibraries){saveMovie.SaveRecord(movie);}saveMovie.Save();}
             //ProcessResults(Library);
         }
-
-
         public override async Task<TOutput> GetLibariesAsync<TOutput>(Uri uri)
         {
             var Uri = RequestUrl(Id, start, pageSize);
@@ -85,9 +82,9 @@ namespace PlexBuilder.Service
             catch (Exception ex)
             {
                 Console.WriteLine(Environment.NewLine);
-                //Console.WriteLine(ex.Message);
-                //Console.WriteLine(ex.InnerException?.Message);
-                //Console.WriteLine(ex.StackTrace);
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.InnerException?.Message);
+                Console.WriteLine(ex.StackTrace);
                 Console.WriteLine(uri);
                 Console.WriteLine(Environment.NewLine);
             }
@@ -108,6 +105,7 @@ namespace PlexBuilder.Service
             if (libraries is not List<Movies.MediaContainer> details)
                 throw new InvalidCastException("Libraries is of wrong type");
 
+            var cnt = 1;
             foreach (var detail in details)
             {
                 if (detail.Video != null)
@@ -119,12 +117,13 @@ namespace PlexBuilder.Service
                         Title = detail.Video.title,
                         Year = detail.Video.year,
                         File = file,
-                        IsAvailable = FileExists(file),
+                        IsAvailable = Utils.FileExists(file),
                         LastUpdated = DateTime.Now,
                     };
 
-                    Console.WriteLine(movie.ToString());
+                    Console.WriteLine($"{cnt}:\t\t {movie}" );
                     Libraries.Add(movie);
+                    cnt++;
                 }
             }
         }

@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.Hosting;
+using PlexBuilder.Abstract;
+using PlexBuilder.Commands;
 using PlexBuilder.Concrete;
 using PlexBuilder.Models;
 using PlexBuilder.Service;
@@ -12,40 +14,54 @@ namespace PlexBuilder
 {
     public class PlexService : IHostedService
     {
-        private static PlexConfig config;
+        protected RunCommands Runner { get; set; }
+        //private static PlexConfig config;
 
-        private AllLibrariesService allLibraries;
+        //private AllLibrariesService allLibraries;
         private PlexContext Context { get; }
+        private AppSettings Setting { get; }
 
         public PlexService(PlexContext context, AppSettings setting)
         {
+            Runner = new RunCommands();
+            Setting = setting;
             Context = context;
-            var login = new PlexLogin(setting);
-            var token = login.Login().Result;
-            config = new PlexConfig
-            {
-                BaseUrl = setting.PlexServer,
-                Token = token
-            };
+            //var login = new PlexLogin(setting);
+            //var token = login.Login().Result;
+            //config = new PlexConfig
+            //{
+            //    BaseUrl = setting.PlexServer,
+            //    Token = token
+            //};
         }
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
             Console.WriteLine($"Hello to the plex server api test app.{Environment.NewLine}");
-            await Run().ConfigureAwait(false);
+            Run();
         }
 
-        public async Task StopAsync(CancellationToken cancellationToken) 
+        public async Task StopAsync(CancellationToken cancellationToken)
             => await Task.Run(() => Console.Write("Stopped"), cancellationToken).ConfigureAwait(true);
 
-        private async Task Run()
+        private void Run()
         {
-            await FindAllLibraries().ConfigureAwait(true);
-            await FindMovies().ConfigureAwait(true);
+            //Execute(new MovieCommand(Context, Setting));
+            Execute(new TvShowCommand(Context, Setting));
+
+            //await FindAllLibraries().ConfigureAwait(true);
+            //await FindMovies().ConfigureAwait(true);
             //await FindTvShows().ConfigureAwait(true);
             return;
         }
 
+        private void Execute(ICommand Command)
+        {
+            Runner.SetCommand(Command);
+            Runner.Invoke();
+        }
+
+        /*
         private async Task FindAllLibraries()
         {
             allLibraries = new AllLibrariesService(config, this.Context);
@@ -71,8 +87,10 @@ namespace PlexBuilder
                 .Where(x => x.Key == "TV Shows")
                 .OrderBy(x => x.Key).ToList();
 
-            var TvService = new TvShowService(config, new SqlModels.PlexContext());
+            var TvService = new TvShowService(config, new PlexContext());
             await TvService.Execute(TvShows).ConfigureAwait(true);
         }
+        */
+
     }
 }

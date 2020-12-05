@@ -9,6 +9,8 @@ using PlexBuilder.SqlModels;
 using PlexBuilder.Service;
 using PlexBuilder.Extension;
 using PlexBuilder.Models;
+using PlexBuilder.Abstract;
+using PlexBuilder.Commands;
 
 namespace PlexBuilder
 {
@@ -27,7 +29,8 @@ namespace PlexBuilder
             // Environment.Devleopment;
 
             //IWebHostEnvironment.EnvironmentName
-            var devSettings = $"appsettings.{EnvironmentName.Development}.json";
+
+            var devSettings = $"appsettings.{Environments.Development}.json";
 
             configuration = new ConfigurationBuilder()
                //.SetBasePath(env.ContentRootPath)
@@ -68,6 +71,9 @@ namespace PlexBuilder
                     services.AddScoped<PlexBase<Movies>, MoviesService>();
                     services.AddConfig<AppSettings>(configuration.GetSection("Appsettings"));
                     services.AddHostedService<PlexService>();
+
+                    services.AddScoped<ICommand, MovieCommand>();
+                    services.AddScoped<ICommand, TvShowCommand>();
                 });
     }
 }

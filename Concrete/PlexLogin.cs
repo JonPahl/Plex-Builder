@@ -5,13 +5,14 @@ using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace PlexBuilder.Concrete
 {
-    public class PlexLogin
+    public sealed class PlexLogin
     {
-        public LoginResult.user loginResult;
+        //public LoginResult.user loginResult;
         private string username { get; }
         private string pwd { get; }
         private Uri LoginUrl { get; }
@@ -25,6 +26,8 @@ namespace PlexBuilder.Concrete
 
         public async Task<string> Login()
         {
+            LoginResult.user user;
+
             using HttpMessageHandler handler = new HttpClientHandler();
             using var httpClient = new HttpClient(handler)
             {
@@ -44,16 +47,17 @@ namespace PlexBuilder.Concrete
             {
                 var response = await httpClient.PostAsync(LoginUrl, content).ConfigureAwait(true);
                 var responseString = await response.Content.ReadAsStringAsync().ConfigureAwait(true);
-                loginResult = ProcessResults(responseString);
+                user = ProcessResults(responseString);
             }
-            return loginResult.authToken;
+            return user.authToken;
         }
 
         private LoginResult.user ProcessResults(string xml)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(LoginResult.user));
             using StringReader rdr = new StringReader(xml);
-            return (LoginResult.user)serializer.Deserialize(rdr);
+            using XmlReader xmlReader = XmlReader.Create(rdr);
+            return (LoginResult.user)serializer.Deserialize(xmlReader);
         }
     }
 }

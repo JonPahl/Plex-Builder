@@ -12,7 +12,7 @@ namespace PlexBuilder.Service
         public override List<KeyValuePair<string, int>> LibraryIds { get; }
         //public override Libraries.MediaContainer Libraries { get; set; }
 
-        public AllLibrariesService(PlexConfig config, PlexContext context) : base(config, context)
+        public AllLibrariesService(PlexContext context) : base(context)
         {
             //Libraries = new Libraries.MediaContainer;
             LibraryIds = new List<KeyValuePair<string, int>>();
@@ -20,8 +20,9 @@ namespace PlexBuilder.Service
 
         public async Task Execute()
         {
-            var url = $"{config.BaseUrl}/library/sections?X-Plex-Token={config.Token}";
-            var results = GetLibaries<Libraries.MediaContainer>(new Uri(url));
+            //var url = $"{PlexConfig.BaseUrl}library/sections?X-Plex-Token={PlexConfig.Token}";
+            var uri = new Uri(PlexConfig.BaseUrl, $"library/sections?X-Plex-Token={PlexConfig.Token}");
+            var results = GetLibaries<Libraries.MediaContainer>(uri);
             PrintResults(results);
         }
 

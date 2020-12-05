@@ -31,6 +31,5 @@ namespace PlexBuilder.SqlModels
 
             return builder.ToString();
         }
-
     }
 }

@@ -16,7 +16,7 @@ namespace PlexBuilder.Service
         private int Id;
         private int start = 0;
 
-        public TvShowService(PlexConfig config, PlexContext context) : base(config, context)
+        public TvShowService(PlexContext context) : base(context)
         {
             Libraries = new List<SqlModels.TvShow>();
         }
@@ -30,7 +30,7 @@ namespace PlexBuilder.Service
                 Id = id.Value;
                 try
                 {
-                    var details = await GetLibariesAsync<Models.Tv.TvShow.MediaContainer>(new Uri(config.BaseUrl))
+                    var details = await GetLibariesAsync<Models.Tv.TvShow.MediaContainer>(PlexConfig.BaseUrl)
                         .ConfigureAwait(true);
 
                     PrintResults(details);
@@ -124,6 +124,7 @@ namespace PlexBuilder.Service
             {
                 foreach (var tvShow in TvShows.Directory.ToList())
                 {
+                    //.TrimStart('/')
                     var seasons = LoadMedia<Season.MediaContainer>(tvShow.key);
 
                     foreach (var season in seasons.Directory.Where(x => x.index > 0))
@@ -140,7 +141,7 @@ namespace PlexBuilder.Service
                                 Episode = episode.index,
                                 EpisodeTitle = episode.title,
                                 File = episode.Media.Part.file,
-                                IsAvailable = FileExists(episode.Media.Part.file),
+                                IsAvailable = Utils.FileExists(episode.Media.Part.file),
                                 LastUpdated = DateTime.Now
                             };
 
@@ -153,37 +154,43 @@ namespace PlexBuilder.Service
 
         private T LoadMedia<T>(string media)
         {
-            var url = $"{config.BaseUrl}{media}?X-Plex-Token={config.Token}";
+            var uri = new Uri(PlexConfig.BaseUrl, $"{media}?X-Plex-Token={PlexConfig.Token}");
+
             try
             {
-                return LoadPlex<T>(new Uri(url));
+                return LoadPlex<T>(uri);
             }
             catch (Exception ex)
             {
-                throw new Exception($"Error with xml @{url}", ex);
+                var zzz = 0;
+                throw new Exception($"Error with xml @ {uri} ", ex);
             }
         }
 
         private void ProcessResults(IEnumerable<SqlModels.TvShow> Shows)
         {
-            Console.WriteLine(BuildSeperator('='));
+            Console.WriteLine(Utils.BuildSeperator('='));
             Console.WriteLine($"# Tv Shows Found: {Shows.GroupBy(x => x.Title).Count()}");
-            Console.WriteLine(BuildSeperator('*'));
+            Console.WriteLine(Utils.BuildSeperator('*'));
             foreach (var TvShow in Shows.GroupBy(x => x.Title))
             {
+                Console.WriteLine(TvShow.Key);
+
                 foreach (var info in TvShow)
                 {
-                    Console.WriteLine($"{info.Title}\t\t{info.Year}");
-                    Console.WriteLine($"\t{info.Season}");
+                    //Console.WriteLine($"{info.Title}\t\t{info.Year}");
+                    Console.Write($"\t{info.Season}");
+                    Console.WriteLine($"\t{info.Year}");
                     Console.WriteLine($"\t\tEpisode: {info.Episode}");
                     Console.WriteLine($"\t\t{info.EpisodeTitle}");
                     Console.WriteLine($"\t\t{info.File}");
                     Console.WriteLine($"\t\tIsAvailable: {info.IsAvailable}");
+                    Console.WriteLine();
                 }
                 Console.WriteLine();
                 Console.WriteLine();
             }
-            Console.WriteLine(BuildSeperator('*'));
+            Console.WriteLine(Utils.BuildSeperator('*'));
             Console.WriteLine();
         }
     }

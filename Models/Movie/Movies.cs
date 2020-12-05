@@ -16,7 +16,6 @@ namespace PlexBuilder.Models.Movie
             /// <remarks/>
             public MediaContainerVideo Video { get; set; }
 
-            
             /// <remarks/>
             [System.Xml.Serialization.XmlAttribute()]
             public int size { get; set; }
@@ -88,10 +87,8 @@ namespace PlexBuilder.Models.Movie
         [System.Xml.Serialization.XmlType(AnonymousType = true)]
         public partial class MediaContainerVideo
         {
-            
             /// <remarks/>
             public MediaContainerVideoMedia Media { get; set; }
-            
             /// <remarks/>
             [System.Xml.Serialization.XmlElement("Genre")]
             public MediaContainerVideoGenre[] Genre { get; set; }
@@ -108,7 +105,7 @@ namespace PlexBuilder.Models.Movie
             /// <remarks/>
             [System.Xml.Serialization.XmlElement("Role")]
             public MediaContainerVideoRole[] Role { get; set; }
-            
+
             /// <remarks/>
             [System.Xml.Serialization.XmlAttribute()]
             public int ratingKey { get; set; }
@@ -190,7 +187,7 @@ namespace PlexBuilder.Models.Movie
         {
             /// <remarks/>
             public MediaContainerVideoMediaPart Part { get; set; }
-            
+
             /// <remarks/>
             [System.Xml.Serialization.XmlAttribute()]
             public int id { get; set; }
@@ -254,7 +251,6 @@ namespace PlexBuilder.Models.Movie
             /// <remarks/>
             [System.Xml.Serialization.XmlAttribute()]
             public string videoProfile { get; set; }
-            
         }
 
         /// <remarks/>
@@ -360,8 +356,6 @@ namespace PlexBuilder.Models.Movie
         }
     }
 }
-
-
 //using System;
 
 //namespace PlexBuilder.Models.Movie

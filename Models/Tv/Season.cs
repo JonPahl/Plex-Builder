@@ -1,222 +1,172 @@
-﻿namespace PlexBuilder.Models.Tv
-{
-    public class Season
-    {
+﻿using System;
 
+namespace PlexBuilder.Models.Tv
+{
+    [Serializable]
+    public static class Season
+    {
         // NOTE: Generated code may require at least .NET Framework 4.5 or .NET Core/Standard 2.0.
-        /// <remarks/>
-        [System.SerializableAttribute()]
-        [System.ComponentModel.DesignerCategoryAttribute("code")]
-        [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-        [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
+        /// <summary>
+        /// Container from Plex.
+        /// </summary>
+        [Serializable]
+        [System.ComponentModel.DesignerCategory("code")]
+        [System.Xml.Serialization.XmlType(AnonymousType = true)]
+        [System.Xml.Serialization.XmlRoot(Namespace = "", IsNullable = false)]
         public partial class MediaContainer
         {
-            /// <remarks/>
-            [System.Xml.Serialization.XmlElementAttribute("Directory")]
+            [System.Xml.Serialization.XmlElement("Directory")]
             public MediaContainerDirectory[] Directory { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [System.Xml.Serialization.XmlAttribute]
             public int size { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [System.Xml.Serialization.XmlAttribute]
             public int allowSync { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [System.Xml.Serialization.XmlAttribute]
             public string art { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [System.Xml.Serialization.XmlAttribute]
             public string banner { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [System.Xml.Serialization.XmlAttribute]
             public string identifier { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [System.Xml.Serialization.XmlAttribute]
             public int key { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [System.Xml.Serialization.XmlAttribute]
             public int librarySectionID { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [System.Xml.Serialization.XmlAttribute]
             public string librarySectionTitle { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [System.Xml.Serialization.XmlAttribute]
             public string librarySectionUUID { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [System.Xml.Serialization.XmlAttribute]
             public string mediaTagPrefix { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [System.Xml.Serialization.XmlAttribute]
             public int mediaTagVersion { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [System.Xml.Serialization.XmlAttribute]
             public int nocache { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [System.Xml.Serialization.XmlAttribute]
             public int parentIndex { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [System.Xml.Serialization.XmlAttribute]
             public string parentTitle { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [System.Xml.Serialization.XmlAttribute]
             public int parentYear { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [System.Xml.Serialization.XmlAttribute]
             public string summary { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [System.Xml.Serialization.XmlAttribute]
             public string theme { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [System.Xml.Serialization.XmlAttribute]
             public string thumb { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [System.Xml.Serialization.XmlAttribute]
             public string title1 { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [System.Xml.Serialization.XmlAttribute]
             public string title2 { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [System.Xml.Serialization.XmlAttribute]
             public string viewGroup { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
+            [System.Xml.Serialization.XmlAttribute]
             public int viewMode { get; set; }
         }
+    }
 
-        /// <remarks/>
-        [System.SerializableAttribute()]
-        [System.ComponentModel.DesignerCategoryAttribute("code")]
-        [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-        public partial class MediaContainerDirectory
-        {
+    [Serializable]
+    [System.ComponentModel.DesignerCategory("code")]
+    [System.Xml.Serialization.XmlType(AnonymousType = true)]
+    public partial class MediaContainerDirectory
+    {
+        [System.Xml.Serialization.XmlAttribute]
+        public int leafCount { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public int leafCount { get; set; }
+        [System.Xml.Serialization.XmlAttribute]
+        public string thumb { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public string thumb { get; set; }
+        [System.Xml.Serialization.XmlAttribute]
+        public int viewedLeafCount { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public int viewedLeafCount { get; set; }
+        [System.Xml.Serialization.XmlAttribute]
+        public string key { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public string key { get; set; }
+        [System.Xml.Serialization.XmlAttribute]
+        public string title { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public string title { get; set; }
+        [System.Xml.Serialization.XmlAttribute]
+        public int ratingKey { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public int ratingKey { get; set; }
+        [System.Xml.Serialization.XmlIgnore]
+        public bool ratingKeySpecified { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlIgnoreAttribute()]
-            public bool ratingKeySpecified { get; set; }
+        [System.Xml.Serialization.XmlAttribute]
+        public int parentRatingKey { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public int parentRatingKey { get; set; }
+        [System.Xml.Serialization.XmlIgnore]
+        public bool parentRatingKeySpecified { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlIgnoreAttribute()]
-            public bool parentRatingKeySpecified { get; set; }
+        [System.Xml.Serialization.XmlAttribute]
+        public string guid { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public string guid { get; set; }
+        [System.Xml.Serialization.XmlAttribute]
+        public string parentGuid { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public string parentGuid { get; set; }
+        [System.Xml.Serialization.XmlAttribute]
+        public string type { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public string type { get; set; }
+        [System.Xml.Serialization.XmlAttribute]
+        public string parentKey { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public string parentKey { get; set; }
+        [System.Xml.Serialization.XmlAttribute]
+        public string parentTitle { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public string parentTitle { get; set; }
+        [System.Xml.Serialization.XmlAttribute]
+        public string summary { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public string summary { get; set; }
+        [System.Xml.Serialization.XmlAttribute]
+        public int index { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public int index { get; set; }
+        [System.Xml.Serialization.XmlIgnore]
+        public bool indexSpecified { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlIgnoreAttribute()]
-            public bool indexSpecified { get; set; }
+        [System.Xml.Serialization.XmlAttribute]
+        public int parentIndex { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public int parentIndex { get; set; }
+        [System.Xml.Serialization.XmlIgnore]
+        public bool parentIndexSpecified { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlIgnoreAttribute()]
-            public bool parentIndexSpecified { get; set; }
+        [System.Xml.Serialization.XmlAttribute]
+        public string art { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public string art { get; set; }
+        [System.Xml.Serialization.XmlAttribute]
+        public string parentThumb { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public string parentThumb { get; set; }
+        [System.Xml.Serialization.XmlAttribute]
+        public string parentTheme { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public string parentTheme { get; set; }
+        [System.Xml.Serialization.XmlAttribute]
+        public int addedAt { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public int addedAt { get; set; }
+        [System.Xml.Serialization.XmlIgnore]
+        public bool addedAtSpecified { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlIgnoreAttribute()]
-            public bool addedAtSpecified { get; set; }
+        [System.Xml.Serialization.XmlAttribute]
+        public uint updatedAt { get; set; }
 
-            /// <remarks/>
-            [System.Xml.Serialization.XmlAttributeAttribute()]
-            public uint updatedAt { get; set; }
-
-            /// <remarks/>
-            [System.Xml.Serialization.XmlIgnoreAttribute()]
-            public bool updatedAtSpecified { get; set; }
-        }
-
-
-
+        [System.Xml.Serialization.XmlIgnore]
+        public bool updatedAtSpecified { get; set; }
     }
 }
