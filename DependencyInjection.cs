@@ -19,6 +19,7 @@ namespace PlexBuilder
             services.AddScoped<PlexBase<TvShow>, TvShowService>();
             services.AddScoped<PlexBase<Movies>, MoviesService>();
             services.AddConfig<AppSettings>(configuration.GetSection("Appsettings"));
+            services.AddScoped<ICommand, AllLibrariesCommand>();
             services.AddScoped<ICommand, MovieCommand>();
             services.AddScoped<ICommand, TvShowCommand>();
 

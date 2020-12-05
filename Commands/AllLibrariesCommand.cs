@@ -1,25 +1,31 @@
-﻿using PlexBuilder.Abstract;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using PlexBuilder.Models;
+using PlexBuilder.Service;
+using PlexBuilder.SqlModels;
 
 namespace PlexBuilder.Commands
 {
-    public class AllLibrariesCommand : ICommand
+    public class AllLibrariesCommand : ACommand
     {
-        public object Client { get; set; }
-        public string Name { get; set; }
+        //public object Client { get; set; }
+        //public string Name { get; set; }
 
-        public AllLibrariesCommand()
+        private AllLibrariesService Services { get; }
+
+        public AllLibrariesCommand(PlexContext context, AppSettings setting) : base(context, setting)
         {
             Name = "AllLibraries";
+            Services = new AllLibrariesService(Context);
         }
 
-        public void ExecuteAction()
+        public override void ExecuteAction()
         {
-            throw new NotImplementedException();
+            Services.Execute().GetAwaiter().GetResult();
+        }
+
+        public override object GetResults()
+        {
+            var results = Services.Libraries;
+            return results;
         }
     }
 }
