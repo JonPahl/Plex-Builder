@@ -1,7 +1,6 @@
 ﻿using PlexBuilder.SqlModels;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
@@ -10,8 +9,7 @@ using System.Xml.Serialization;
 namespace PlexBuilder.Service
 {
     public abstract class PlexBase<T>
-    {
-        //protected PlexConfig config;
+    {        
         public abstract List<KeyValuePair<string, int>> LibraryIds { get; }
         public virtual List<T> Libraries { get; set; }
 
@@ -20,11 +18,8 @@ namespace PlexBuilder.Service
 
         protected PlexBase(PlexContext context)
         {
-            //this.config = config;
-            this.context = context;
+            context = context;
         }
-
-        
 
         protected Uri RequestUrl(int Id, int start, int pageSize)
         {

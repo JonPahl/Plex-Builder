@@ -6,14 +6,22 @@ namespace PlexBuilder.Commands
 {
     public class TvShowCommand : ACommand
     {
-        public TvShowCommand(PlexContext context, AppSettings setting) : base(context, setting) => Name = "TV Shows";
+        private readonly TvShowService TvShowService;
+
+        public TvShowCommand(PlexContext context, AppSettings setting) : base(context, setting) {
+            Name = "TV Shows";
+            TvShowService = new TvShowService(Context);
+        }
 
         public override void ExecuteAction()
         {
-            //var config = GetConfig();
             var TvShows = GetAllLibraries(Name);
-            var TvService = new TvShowService(Context);
-            TvService.Execute(TvShows).GetAwaiter().GetResult();
+            TvShowService.Execute(TvShows).GetAwaiter().GetResult();
+        }
+
+        public override object GetResults()
+        {
+            return TvShowService.Libraries;
         }
     }
 }

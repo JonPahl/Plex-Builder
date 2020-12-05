@@ -24,11 +24,11 @@ namespace PlexBuilder.Commands
             Context = context;
             this.setting = setting;
             PlexConfig.SetupConfig(setting);
-
-            SetAllLibraries(LoadLibaries().GetAwaiter().GetResult());            
+            SetAllLibraries(LoadLibaries().GetAwaiter().GetResult());
         }
 
         public abstract void ExecuteAction();
+        public abstract object GetResults();
 
         //protected PlexConfig GetConfig()
         //{

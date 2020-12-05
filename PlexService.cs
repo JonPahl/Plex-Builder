@@ -46,8 +46,19 @@ namespace PlexBuilder
 
         private void Run()
         {
+            var movieCmd = new MovieCommand(Context, Setting);
+            var tvShowCmd = new TvShowCommand(Context, Setting);
+            Execute(movieCmd);
+            Execute(tvShowCmd);
+
+            var movies = movieCmd.GetResults();
+            var tvShows = movieCmd.GetResults();
+
+            var moviesResults = movieCmd.GetResults();
+
+
             //Execute(new MovieCommand(Context, Setting));
-            Execute(new TvShowCommand(Context, Setting));
+            //Execute(new TvShowCommand(Context, Setting));
 
             //await FindAllLibraries().ConfigureAwait(true);
             //await FindMovies().ConfigureAwait(true);

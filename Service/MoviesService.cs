@@ -1,7 +1,6 @@
 ﻿using PlexBuilder.SqlModels;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
@@ -34,7 +33,6 @@ namespace PlexBuilder.Service
                     Console.WriteLine(Environment.NewLine + Utils.BuildSeperator('-') + Environment.NewLine);
                     var details = await GetLibariesAsync<List<Movies.MediaContainer>>(PlexConfig.BaseUrl)
                         .ConfigureAwait(false);
-
                     PrintResults(details);
                 }
                 catch (Exception ex)
@@ -121,7 +119,7 @@ namespace PlexBuilder.Service
                         LastUpdated = DateTime.Now,
                     };
 
-                    Console.WriteLine($"{cnt}:\t\t {movie}" );
+                    //Console.WriteLine($"{cnt}:\t\t {movie}" );
                     Libraries.Add(movie);
                     cnt++;
                 }
