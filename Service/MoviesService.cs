@@ -11,7 +11,7 @@ namespace PlexBuilder.Service
     public class MoviesService : PlexBase<SqlModels.Movies>
     {
         public override List<KeyValuePair<string, int>> LibraryIds { get; }
-        public override List<SqlModels.Movies> Libraries { get; set; }
+        public override List<SqlModels.Movies> Libraries { get; }
 
         private int Id;
         private int start;
@@ -95,7 +95,7 @@ namespace PlexBuilder.Service
             using var reader = new XmlTextReader(uri.ToString());
             var serializer = new XmlSerializer(typeof(Movies.MediaContainer));
             var envelope = serializer.Deserialize(reader) as Movies.MediaContainer;
-            return (TOutput)Convert.ChangeType(envelope, typeof(Movies.MediaContainer));
+            return (TOutput)Convert.ChangeType(envelope, typeof(TOutput));
         }
 
         public override void PrintResults<T>(T libraries)
@@ -106,23 +106,23 @@ namespace PlexBuilder.Service
             var cnt = 1;
             foreach (var detail in details)
             {
-                if (detail.Video != null)
-                {
-                    var media = detail.Video.Media;
-                    var file = media.Part.file;
-                    var movie = new SqlModels.Movies
-                    {
-                        Title = detail.Video.title,
-                        Year = detail.Video.year,
-                        File = file,
-                        IsAvailable = Utils.FileExists(file),
-                        LastUpdated = DateTime.Now,
-                    };
+                if (detail.Video == null)
+                    continue;
 
-                    //Console.WriteLine($"{cnt}:\t\t {movie}" );
-                    Libraries.Add(movie);
-                    cnt++;
-                }
+                var media = detail.Video.Media;
+                var file = media.Part.file;
+                var movie = new SqlModels.Movies
+                {
+                    Id = cnt,
+                    Title = detail.Video.title,
+                    Year = detail.Video.year,
+                    File = file,
+                    IsAvailable = Utils.FileExists(file),
+                    LastUpdated = DateTime.Now,
+                };
+
+                Libraries.Add(movie);
+                cnt++;
             }
         }
     }

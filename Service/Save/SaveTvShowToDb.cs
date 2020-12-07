@@ -1,14 +1,16 @@
 ﻿using PlexBuilder.SqlModels;
 using System;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace PlexBuilder.Service
 {
     #region save to Db
-
     public class SaveTvShowToDb : IDisposable, ISaveRecord
     {
-        private bool disposed;
+        private bool isDisposed;
+        private IntPtr nativeResource = Marshal.AllocHGlobal(100);
+        //private AnotherResource managedResource = new AnotherResource();
 
         private readonly PlexContext context;
         public SaveTvShowToDb()
@@ -28,7 +30,6 @@ namespace PlexBuilder.Service
                 Console.WriteLine(ex.InnerException.Message);
             }
         }
-
         public void SaveRecord<T>(T item)
         {
             TvShow record = item as TvShow;
@@ -67,19 +68,37 @@ namespace PlexBuilder.Service
             }
         }
 
-        protected virtual void Dispose(bool disposing)
+        /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
+        public void Dispose()
         {
-            if (disposed)
-                return;
-
-            if (disposing)
-            {
-                this.Dispose();
-            }
-            disposed = true;
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
-        public void Dispose() => context.Dispose();
+        // The bulk of the clean-up code is implemented in Dispose(bool)
+        protected virtual void Dispose(bool disposing)
+        {
+            if (isDisposed) return;
+            if (disposing)
+            {
+                // free managed resources                
+                context.Dispose();
+            }
+
+            // free native resources if there are any.
+            if (nativeResource != IntPtr.Zero)
+            {
+                Marshal.FreeHGlobal(nativeResource);
+                nativeResource = IntPtr.Zero;
+            }
+
+            isDisposed = true;
+        }
+
+        // NOTE: Leave out the finalizer altogether if this class doesn't
+        // own unmanaged resources, but leave the other methods
+        // exactly as they are.
+        /*~SaveTvShowToDb() { // Finalizer calls Dispose(false) Dispose(false); }*/
     }
 
     #endregion

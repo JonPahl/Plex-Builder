@@ -8,9 +8,9 @@ using PlexBuilder.Models;
 using PlexBuilder.Service;
 using PlexBuilder.SqlModels;
 
-namespace PlexBuilder
+namespace Microsoft.Extensions.DependencyInjection
 {
-    public static class DependencyInjection
+    public static class CustomDependencyInjection
     {
         public static IServiceCollection AddConfig(this IServiceCollection services, IConfiguration configuration)
         {
@@ -18,8 +18,8 @@ namespace PlexBuilder
                         option.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<PlexBase<TvShow>, TvShowService>();
             services.AddScoped<PlexBase<Movies>, MoviesService>();
-            services.AddConfig<AppSettings>(configuration.GetSection("Appsettings"));
-            services.AddScoped<ICommand, AllLibrariesCommand>();
+            services.AddConfig<AppSettings>(configuration?.GetSection("Appsettings"));
+            //services.AddScoped<ICommand, AllLibrariesCommand>();
             services.AddScoped<ICommand, MovieCommand>();
             services.AddScoped<ICommand, TvShowCommand>();
 

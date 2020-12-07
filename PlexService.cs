@@ -25,24 +25,24 @@ namespace PlexBuilder
         public async Task StartAsync(CancellationToken cancellationToken)
         {
             Console.WriteLine($"Hello to the plex server api test app.{Environment.NewLine}");
-            Run();
+           await Run().ConfigureAwait(false);
         }
 
         public async Task StopAsync(CancellationToken cancellationToken)
             => await Task.Run(() => Console.Write("Stopped"), cancellationToken).ConfigureAwait(true);
 
-        private void Run()
+        private async Task Run()
         {
             var movieCmd = new MovieCommand(Context, Setting);
             var tvShowCmd = new TvShowCommand(Context, Setting);
-            Execute(movieCmd);
-            Execute(tvShowCmd);
+            await Execute(movieCmd).ConfigureAwait(false);
+            await Execute(tvShowCmd).ConfigureAwait(false);
         }
 
-        private void Execute(ICommand Command)
+        private async Task Execute(ICommand Command)
         {
             Runner.SetCommand(Command);
-            Runner.Invoke();
+            await Runner.Invoke().ConfigureAwait(false);
         }
     }
 }

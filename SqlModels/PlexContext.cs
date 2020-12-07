@@ -29,7 +29,7 @@ namespace PlexBuilder.SqlModels
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Movies>(entity =>
+            modelBuilder?.Entity<Movies>(entity =>
             {
                 entity.Property(e => e.Id).HasColumnName("id");
 

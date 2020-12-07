@@ -4,6 +4,7 @@ using PlexBuilder.Models;
 using PlexBuilder.Service;
 using PlexBuilder.SqlModels;
 using Serilog.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -26,20 +27,10 @@ namespace PlexBuilder.Commands
             PlexConfig.SetupConfig(setting);
             SetAllLibraries(LoadLibaries().GetAwaiter().GetResult());
         }
+        public virtual void ExecuteAction() { }
+        public virtual Task ExecuteActionAsync() { return Task.FromException(new NotImplementedException("")); }
 
-        public abstract void ExecuteAction();
         public abstract object GetResults();
-
-        //protected PlexConfig GetConfig()
-        //{
-        //    var login = new PlexLogin(setting);
-        //    var token = login.Login().Result;
-
-        //    PlexConfig.BaseUrl = new System.Uri(setting.PlexServer);
-        //    PlexConfig.Token = token;
-
-        //    //return new PlexConfig { BaseUrl = new System.Uri(setting.PlexServer), Token = token };
-        //}
 
         protected List<KeyValuePair<string, int>> GetAllLibraries() => allLibraries;
         protected List<KeyValuePair<string, int>> GetAllLibraries(string Name) => allLibraries.Where(x => x.Key.Equals(Name)).OrderBy(x => x.Key).ToList();
@@ -47,11 +38,13 @@ namespace PlexBuilder.Commands
 
         private async Task<List<KeyValuePair<string, int>>> LoadLibaries()
         {
-            //var config = GetConfig();
-            var allLibraries = new AllLibrariesService(this.Context);
+            return new List<KeyValuePair<string, int>>();
+            /*
+            var allLibraries = new AllLibrariesService(Context);
             await allLibraries.Execute().ConfigureAwait(false);
             SetAllLibraries(allLibraries.LibraryIds);
             return allLibraries.LibraryIds;
+            */
         }
     }
 }

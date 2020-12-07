@@ -1,14 +1,13 @@
-﻿using PlexBuilder.Models;
+﻿
+using PlexBuilder.Models;
 using PlexBuilder.Service;
 using PlexBuilder.SqlModels;
+using System.Threading.Tasks;
 
 namespace PlexBuilder.Commands
 {
     public class AllLibrariesCommand : ACommand
     {
-        //public object Client { get; set; }
-        //public string Name { get; set; }
-
         private AllLibrariesService Services { get; }
 
         public AllLibrariesCommand(PlexContext context, AppSettings setting) : base(context, setting)
@@ -17,15 +16,7 @@ namespace PlexBuilder.Commands
             Services = new AllLibrariesService(Context);
         }
 
-        public override void ExecuteAction()
-        {
-            Services.Execute().GetAwaiter().GetResult();
-        }
-
-        public override object GetResults()
-        {
-            var results = Services.Libraries;
-            return results;
-        }
+        public override async Task ExecuteActionAsync() => await Services.Execute().ConfigureAwait(false);
+        public override object GetResults() => Services.Libraries;
     }
 }

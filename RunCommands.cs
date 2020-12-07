@@ -1,5 +1,6 @@
 ﻿using PlexBuilder.Abstract;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace PlexBuilder
 {
@@ -7,19 +8,12 @@ namespace PlexBuilder
     {
         private List<ICommand> Commands { get; }
         private ICommand Command { get; set; }
-        //private ApiClientFactory Factory { get; }
-
-        public RunCommands()
-        {
-            //ApiClientFactory factory
-            Commands = new List<ICommand>();
-            //Factory = factory;
-        }
+        public RunCommands() => Commands = new List<ICommand>();
         public void SetCommand(ICommand command) => Command = command;
-        public void Invoke()
+        public async Task Invoke()
         {
             Commands.Add(Command);
-            Command.ExecuteAction();
+            await Command.ExecuteActionAsync().ConfigureAwait(false);
         }
     }
 }

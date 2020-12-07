@@ -11,12 +11,13 @@ namespace PlexBuilder.Service
     public abstract class PlexBase<T>
     {
         public abstract List<KeyValuePair<string, int>> LibraryIds { get; }
-        public virtual List<T> Libraries { get; set; }
-        protected readonly int pageSize = 1;
+        public virtual List<T> Libraries { get; }
+        protected int pageSize { get; set; }
         protected PlexContext Context { get; set; }
 
         protected PlexBase(PlexContext context)
         {
+            pageSize = 1;
             Context = context;
         }
 

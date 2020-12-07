@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <NoWarn>1701;1702;IDE1006;CA1707;CA1819</NoWarn>
+    <NoWarn>1701;1702;IDE1006;CA1707;CA1819;</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

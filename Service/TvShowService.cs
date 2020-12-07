@@ -4,61 +4,48 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TvShow = PlexBuilder.Models.Tv.TvShow;
 
 namespace PlexBuilder.Service
 {
     public class TvShowService : PlexBase<SqlModels.TvShow>
     {
         public override List<KeyValuePair<string, int>> LibraryIds { get; }
-        public override List<SqlModels.TvShow> Libraries { get; set; }
+        public override List<SqlModels.TvShow> Libraries { get; }
 
         private int Id;
-        private int start = 0;
+        private int start;
 
         public TvShowService(PlexContext context) : base(context)
         {
+            start = 0;
             Libraries = new List<SqlModels.TvShow>();
         }
 
         public async Task Execute(List<KeyValuePair<string, int>> tvShows)
         {
-            if (tvShows == null) throw new ArgumentException(" No Tv Shows provided. ");
+            if (tvShows == null) throw new ArgumentException(" No TV Shows provided. ");
 
-            foreach (var id in tvShows)
-            {
-                Id = id.Value;
-                try
-                {
-                    var details = await GetLibariesAsync<Models.Tv.TvShow.MediaContainer>(PlexConfig.BaseUrl)
-                        .ConfigureAwait(true);
-
-                    PrintResults(details);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                    Console.WriteLine(ex.StackTrace);
-                }
-            }
+            var details = await GetLibariesAsync<TvShow.MediaContainer>(PlexConfig.BaseUrl).ConfigureAwait(true);
+            PrintResults(details);
         }
 
         public override async Task<T> GetLibariesAsync<T>(Uri uri)
         {
-            var list = new List<Models.Tv.TvShow.MediaContainerDirectory>();
+            var list = new List<TvShow.MediaContainerDirectory>();
             var url = RequestUrl(Id, start, pageSize);
 
-            var results = await LoadData<Models.Tv.TvShow.MediaContainer>(url, list).ConfigureAwait(true);
-            var result = new Models.Tv.TvShow.MediaContainer { Directory = results.ToArray() };
-
+            var results = await LoadData<TvShow.MediaContainer>(url, list).ConfigureAwait(true);
+            var result = new TvShow.MediaContainer { Directory = results.ToArray() };
             return (T)Convert.ChangeType(result, typeof(T));
         }
 
-        private async Task<List<Models.Tv.TvShow.MediaContainerDirectory>> LoadData<T>(Uri uri, List<Models.Tv.TvShow.MediaContainerDirectory> list)
+        private async Task<List<TvShow.MediaContainerDirectory>> LoadData<T>(Uri uri, List<TvShow.MediaContainerDirectory> list)
         {
-            var xml = new Models.Tv.TvShow.MediaContainer();
+            var xml = new TvShow.MediaContainer();
             try
             {
-                xml = LoadPlex<T>(uri) as Models.Tv.TvShow.MediaContainer;
+                xml = LoadPlex<T>(uri) as TvShow.MediaContainer;
 
                 if (xml?.Directory != null && xml.Directory.Length > 0)
                     list.AddRange(xml.Directory.ToList().Select(video => video));
@@ -144,29 +131,5 @@ namespace PlexBuilder.Service
                 throw new Exception($"Error with xml @ {uri} ", ex);
             }
         }
-
-        /* private void ProcessResults(IEnumerable<SqlModels.TvShow> Shows) {
-            Console.WriteLine(Utils.BuildSeperator('='));
-            Console.WriteLine($"# Tv Shows Found: {Shows.GroupBy(x => x.Title).Count()}");
-            Console.WriteLine(Utils.BuildSeperator('*'));
-            foreach (var TvShow in Shows.GroupBy(x => x.Title)) {
-                Console.WriteLine(TvShow.Key);
-                foreach (var info in TvShow) {                    
-                    Console.WriteLine($"{info.Title}\t\t{info.Year}");
-                    Console.Write($"\t{info.Season}");
-                    Console.WriteLine($"\t{info.Year}");
-                    Console.WriteLine($"\t\tEpisode: {info.Episode}");
-                    Console.WriteLine($"\t\t{info.EpisodeTitle}");
-                    Console.WriteLine($"\t\t{info.File}");
-                    Console.WriteLine($"\t\tIsAvailable: {info.IsAvailable}");
-                    Console.WriteLine();
-                }
-                //Console.WriteLine();
-                //Console.WriteLine();
-            }            
-            //Console.WriteLine(Utils.BuildSeperator('*'));
-            //Console.WriteLine();            
-        }
-        */
     }
 }

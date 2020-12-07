@@ -1,16 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using PlexBuilder.Extension;
+using Serilog;
 using System;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Serilog;
-using PlexBuilder.SqlModels;
-using PlexBuilder.Service;
-using PlexBuilder.Extension;
-using PlexBuilder.Models;
-using PlexBuilder.Abstract;
-using PlexBuilder.Commands;
 
 namespace PlexBuilder
 {
@@ -61,22 +57,34 @@ namespace PlexBuilder
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .UseSerilog()
-                .ConfigureServices((_, services) =>
-                {
-                    services.AddConfig(configuration);
-                    services.AddHostedService<PlexService>();
+    Host.CreateDefaultBuilder(args)
+        .ConfigureWebHostDefaults(webBuilder =>
+        {
+            webBuilder.UseStartup<Startup>();
+        });
 
-                    //services.AddDbContext<PlexContext>(option =>
-                    //    option.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
-                    //services.AddScoped<PlexBase<TvShow>, TvShowService>();
-                    //services.AddScoped<PlexBase<Movies>, MoviesService>();
-                    //services.AddConfig<AppSettings>(configuration.GetSection("Appsettings"));
-                    //services.AddHostedService<PlexService>();
 
-                    //services.AddScoped<ICommand, MovieCommand>();
-                    //services.AddScoped<ICommand, TvShowCommand>();
-                });
+        //public static IHostBuilder CreateHostBuilder(string[] args) =>
+        //    Host.CreateDefaultBuilder(args)
+        //        .UseSerilog()
+        //        .ConfigureServices((_, services) =>
+        //        {
+        //            services.AddConfig(configuration);
+        //            services.AddHostedService<PlexService>();
+
+        //            //services.AddDbContext<PlexContext>(option =>
+        //            //    option.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+        //            //services.AddScoped<PlexBase<TvShow>, TvShowService>();
+        //            //services.AddScoped<PlexBase<Movies>, MoviesService>();
+        //            //services.AddConfig<AppSettings>(configuration.GetSection("Appsettings"));
+        //            //services.AddHostedService<PlexService>();
+
+        //            //services.AddScoped<ICommand, MovieCommand>();
+        //            //services.AddScoped<ICommand, TvShowCommand>();
+        //        })
+        //    .ConfigureAppConfiguration((IApplicationBuilder app, IWebHostEnvironment env) =>
+        //    {
+        //        app.ConfigureExceptionHandler();
+        //    });
     }
 }

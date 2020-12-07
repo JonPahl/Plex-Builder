@@ -1,7 +1,7 @@
 ﻿using PlexBuilder.Models;
 using PlexBuilder.Service;
 using PlexBuilder.SqlModels;
-using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace PlexBuilder.Commands
 {
@@ -15,18 +15,8 @@ namespace PlexBuilder.Commands
             MoviceService = new MoviesService(context);
         }
 
-        public override void ExecuteAction()
-        {
-            //var Config = GetConfig();
-            var movies = GetAllLibraries(Name);
-            MoviceService.Execute(movies).GetAwaiter().GetResult();
-        }
+        public override async Task ExecuteActionAsync() => await MoviceService.Execute(GetAllLibraries(Name)).ConfigureAwait(false);
 
-        public override object GetResults()
-        {
-            //var results = MoviceService.GetResults();
-            List<Movies> results = MoviceService.Libraries;
-            return results;
-        }
+        public override object GetResults() => MoviceService.Libraries;
     }
 }

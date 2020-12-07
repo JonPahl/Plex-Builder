@@ -12,7 +12,6 @@ namespace PlexBuilder.Concrete
 {
     public sealed class PlexLogin
     {
-        //public LoginResult.user loginResult;
         private string username { get; }
         private string pwd { get; }
         private Uri LoginUrl { get; }
@@ -52,7 +51,7 @@ namespace PlexBuilder.Concrete
             return user.authToken;
         }
 
-        private LoginResult.user ProcessResults(string xml)
+        private static LoginResult.user ProcessResults(string xml)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(LoginResult.user));
             using StringReader rdr = new StringReader(xml);
